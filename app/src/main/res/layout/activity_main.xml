@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/menuWelcomeMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="116dp"
+        android:text="@string/mainActivityWelcomeMsg"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/addRecordBtn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="152dp"
+        android:text="@string/AddRecordBtn"
+        app:layout_constraintEnd_toEndOf="@+id/menuWelcomeMsg"
+        app:layout_constraintHorizontal_bias="0.479"
+        app:layout_constraintStart_toStartOf="@+id/menuWelcomeMsg"
+        app:layout_constraintTop_toBottomOf="@+id/menuWelcomeMsg" />
+
+    <Button
+        android:id="@+id/viewRecordBtn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/ViewRecordBtn"
+        app:layout_constraintEnd_toEndOf="@+id/addRecordBtn"
+        app:layout_constraintStart_toStartOf="@+id/addRecordBtn"
+        app:layout_constraintTop_toBottomOf="@+id/addRecordBtn" />
+
+    <Button
+        android:id="@+id/editRecordBtn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/EditRecordBtn"
+        app:layout_constraintEnd_toEndOf="@+id/viewRecordBtn"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/viewRecordBtn"
+        app:layout_constraintTop_toBottomOf="@+id/viewRecordBtn" />
+
+    <Button
+        android:id="@+id/deleteAllBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Delete All Records"
+        app:layout_constraintEnd_toEndOf="@+id/editRecordBtn"
+        app:layout_constraintStart_toStartOf="@+id/editRecordBtn"
+        app:layout_constraintTop_toBottomOf="@+id/editRecordBtn" />
+</androidx.constraintlayout.widget.ConstraintLayout>

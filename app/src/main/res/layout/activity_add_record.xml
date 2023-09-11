@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:outlineProvider="none"
+    tools:context=".AddRecord">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="@string/EntryMsgForAddRecordPage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <AutoCompleteTextView
+        android:id="@+id/nameInput"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:ems="10"
+        android:hint="@string/CustomerName"
+        android:inputType="text"
+        android:completionThreshold="1"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/customerPhoneNumberInput"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:hint="@string/PhoneNumber"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="@+id/deliveryDateInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/deliveryDateInput"
+        app:layout_constraintTop_toBottomOf="@+id/deliveryDateInput" />
+
+    <EditText
+        android:id="@+id/deliveryDateInput"
+        android:layout_width="185dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:focusable="false"
+        android:hint="@string/DeliveryDate"
+        android:inputType="datetime|date"
+        app:layout_constraintEnd_toEndOf="@+id/nameInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/nameInput"
+        app:layout_constraintTop_toBottomOf="@+id/nameInput" />
+
+    <Button
+        android:id="@+id/submitDetailsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="124dp"
+        android:text="@string/btnSubmit"
+        app:layout_constraintEnd_toEndOf="@+id/cakePriceInput"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/cakePriceInput"
+        app:layout_constraintTop_toBottomOf="@+id/cakePriceInput" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="205dp" />
+
+    <Switch
+        android:id="@+id/switchBtn"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="112dp"
+        android:text="@string/switchOffBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <EditText
+        android:id="@+id/cakePriceInput"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:hint="@string/cakePriceInput"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="@+id/customerPhoneNumberInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/customerPhoneNumberInput"
+        app:layout_constraintTop_toBottomOf="@+id/customerPhoneNumberInput" />
+
+    <AutoCompleteTextView
+        android:id="@+id/cakeFlavourInput"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="168dp"
+        android:ems="10"
+        android:hint="@string/cakeFlavour"
+        android:inputType="text"
+        android:completionThreshold="1"
+        android:maxLines="1"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/cakeWeightInput"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:hint="@string/cakeWeightInput"
+        android:inputType="number"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/cakeFlavourInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cakeFlavourInput"
+        app:layout_constraintTop_toBottomOf="@+id/cakeFlavourInput" />
+
+    <EditText
+        android:id="@+id/cakeMsgInput"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:hint="@string/cakeMsgInput"
+        android:inputType="text"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/cakeWeightInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cakeWeightInput"
+        app:layout_constraintTop_toBottomOf="@+id/cakeWeightInput" />
+
+    <CheckBox
+        android:id="@+id/isThemeCheckBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Theme Cake"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@+id/cakeMsgInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cakeMsgInput"
+        app:layout_constraintTop_toBottomOf="@+id/cakeMsgInput" />
+
+    <EditText
+        android:id="@+id/themeDescription"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="156dp"
+        android:ems="10"
+        android:hint="@string/themeCakeDescription"
+        android:inputType="text"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cakeMsgInput"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/cakeMsgInput" />
+
+    <EditText
+        android:id="@+id/deliveryTimeInput"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:ems="10"
+        android:hint="Delivery Time"
+        android:focusable="false"
+        android:inputType="time"
+        app:layout_constraintBottom_toBottomOf="@+id/deliveryDateInput"
+        app:layout_constraintStart_toEndOf="@+id/deliveryDateInput"
+        app:layout_constraintTop_toTopOf="@+id/deliveryDateInput"
+        app:layout_constraintVertical_bias="0.0" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">Record Application</string>
+    <string name="CustomerName">Customer Name</string>
+    <string name="DeliveryDate">Delivery Date</string>
+    <string name="PhoneNumber">Phone Number</string>
+    <string name="EntryMsgForAddRecordPage">Please enter the details</string>
+    <string name="btnSubmit">Submit</string>
+    <string name="AddRecordBtn">Add Record</string>
+    <string name="ViewRecordBtn">View Record</string>
+    <string name="EditRecordBtn">Edit Record</string>
+    <string name="mainActivityWelcomeMsg">WELCOME TO ORDER\'S APP</string>
+    <string name="switchOffBtn">Customer</string>
+    <string name="cakePriceInput">Cake Price</string>
+    <string name="cakeFlavour">Cake Flavour</string>
+    <string name="cakeWeightInput">Cake Weight</string>
+    <string name="cakeMsgInput">Cake Message</string>
+    <string name="themeCakeDescription">Description</string>
+    <string-array name="cakeFlavourList">
+        <item>Vanilla Cake</item>
+        <item>White Forest cake</item>
+        <item>Black forest cake</item>
+        <item>Chocolate cake</item>
+        <item>Mocha cake</item>
+        <item>Truffle cake</item>
+        <item>Cookies and cream cake </item>
+        <item>Pineapple cake</item>
+        <item>strawberry cake</item>
+        <item>Caramel Cake</item>
+        <item>Butter Scotch Cake</item>
+        <item>Raspberry Cake 3</item>
+        <item>Kiwi Cake</item>
+        <item>Orange Cake</item>
+        <item>Fresh Fruit Cake</item>
+        <item>Coffee Cinnamon Cake</item>
+        <item>Gulab Jamun Pista Cake </item>
+        <item>Red Velvet Cake</item>
+        <item>Chocolate Chip Caramel Cake</item>
+        <item>Mango Cake</item>
+        <item>Lemon Cake</item>
+        <item>Truffle almond cake</item>
+        <item>Pinacolada Cake</item>
+        <item>Day and Night Cake</item>
+        <item>Cappaccino Walnut Cake</item>
+        <item>Italian casata Cake</item>
+        <item>Ferrero Roacher Cake</item>
+        <item>Choco Berry bliss Cake</item>
+        <item>Kaju Malai Cake</item>
+        <item>Ras Malai Cake</item>
+        <item>Chocolate Almond Praline Cake</item>
+        <item>Kitkat Cake</item>
+        <item>Chocolate Strawberry Lemonade Cake</item>
+        <item>Mocha Toffee Cake</item>
+        <item>Coffee Caramel Cake</item>
+        <item>Moist Carrot Cake</item>
+        <item>Raffaello Cake</item>
+        <item>Pistachio Cake</item>
+        <item>Toffee Nuts Cake</item>
+        <item>Walnut Caramel Cake</item>
+        <item>Rainbow Cake</item>
+        <item>Saffron Cardamom Cake</item>
+        <item>Tiramisu Cake</item>
+    </string-array>
+</resources>
