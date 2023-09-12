@@ -11,7 +11,9 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="35dp"
+        android:textStyle="bold"
+        android:textSize="20dp"
         android:text="@string/EntryMsgForAddRecordPage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,8 +83,8 @@
         android:id="@+id/switchBtn"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="112dp"
+        android:layout_marginStart="240dp"
+        android:layout_marginTop="108dp"
         android:text="@string/switchOffBtn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -184,5 +186,24 @@
         app:layout_constraintStart_toEndOf="@+id/deliveryDateInput"
         app:layout_constraintTop_toTopOf="@+id/deliveryDateInput"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Spinner
+        android:id="@+id/bakeryItemTypeSelector"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="125dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="104dp"
+        android:text="Select Bakery Type:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

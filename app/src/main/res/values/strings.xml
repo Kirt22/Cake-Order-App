@@ -3,7 +3,7 @@
     <string name="CustomerName">Customer Name</string>
     <string name="DeliveryDate">Delivery Date</string>
     <string name="PhoneNumber">Phone Number</string>
-    <string name="EntryMsgForAddRecordPage">Please enter the details</string>
+    <string name="EntryMsgForAddRecordPage">Please Enter The Details</string>
     <string name="btnSubmit">Submit</string>
     <string name="AddRecordBtn">Add Record</string>
     <string name="ViewRecordBtn">View Record</string>

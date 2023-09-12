@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -31,7 +33,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.TimeZone;
 
-public class AddRecord extends AppCompatActivity {
+public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private EditText deliveryDateInput, customerPhoneNumberInput, cakePriceInput, cakeWeightInput, cakeMsgInput, themeDescription, deliveryTimeInput;
     private Button submitDetailsBtn;
@@ -39,6 +41,8 @@ public class AddRecord extends AppCompatActivity {
     private Switch switchBtn;
     private CheckBox isThemeCheckBtn;
     private AutoCompleteTextView nameInput, cakeFlavourInput;
+    private Spinner bakeryItemTypeSelector;
+    private String BakeryType;
     private ArrayList<String> arrayList;
     databaseHelper databaseHelperObj;
     private DatePickerDialog datePickerDialog;
@@ -53,16 +57,32 @@ public class AddRecord extends AppCompatActivity {
 
         initialiseViews();
 
+        // Bakery type dialogBox selector
+        String[] bakeryType = getResources().getStringArray(R.array.Bakery_Type_Array);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, bakeryType);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bakeryItemTypeSelector.setAdapter(adapter);
+        bakeryItemTypeSelector.setOnItemSelectedListener(this);
+
+        databaseHelperObj = new databaseHelper(AddRecord.this);
+        if(bakeryType.equals("Cake")) {
+            arrayList = databaseHelperObj.getName();
+            ArrayAdapter<String> arrayAdapterForCusName = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, arrayList);
+            nameInput.setAdapter(arrayAdapterForCusName);
+        } else if(bakeryType.equals("Cheese Cake")) {
+
+        }
+
         // Auto Suggest feature for customer Name ( using database )
         databaseHelperObj = new databaseHelper(AddRecord.this);
-        arrayList = databaseHelperObj.getName();
-        ArrayAdapter<String> arrayAdapterForCusName = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, arrayList);
-        nameInput.setAdapter(arrayAdapterForCusName);
+
 
         // Auto Suggest feature for cake Flavour ( using arrayList )
         String[] cakeFlavourList = getResources().getStringArray(R.array.cakeFlavourList);
         ArrayAdapter<String> arrayAdapterForCakeFlavour = new ArrayAdapter<String>(AddRecord.this, android.R.layout.simple_list_item_1, cakeFlavourList);
         cakeFlavourInput.setAdapter(arrayAdapterForCakeFlavour);
+
+
 
         // On clicking the Delivery date edtText
         deliveryDateInput.setOnClickListener(new View.OnClickListener() {
@@ -153,11 +173,11 @@ public class AddRecord extends AppCompatActivity {
 
                 OrderDetailsModel orderDetailsModelObj;
                 try {
-                    orderDetailsModelObj = new OrderDetailsModel(orderId, cusName, phNumber, cakePrice, dateDb, timeDb, cakeFlavour, cakeWeight, cakeMsg, isTheme, themeCakeDesc);
+                    orderDetailsModelObj = new OrderDetailsModel(orderId, cusName, phNumber, cakePrice, dateDb, timeDb, cakeFlavour, cakeWeight, cakeMsg, isTheme, themeCakeDesc, BakeryType);
                     Log.d("AddRecord", "onClick: input data:-" + orderDetailsModelObj.getCustomerName());
                     Toast.makeText(AddRecord.this, "Order Successfully added!", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
-                    orderDetailsModelObj = new OrderDetailsModel(0, null, 0, 0, null, null, null, 0, null, false, null);
+                    orderDetailsModelObj = new OrderDetailsModel(0, null, 0, 0, null, null, null, 0, null, false, null, null);
                     Toast.makeText(AddRecord.this, "Filed Empty!", Toast.LENGTH_SHORT).show();
                 }
 
@@ -180,58 +200,7 @@ public class AddRecord extends AppCompatActivity {
 
 
         // On clicking the switch button
-        switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if(isChecked == true) {
 
-                    // This is for cake details
-                    switchBtn.setText("Cake");
-
-                    nameInput.setVisibility(View.INVISIBLE);
-                    deliveryDateInput.setVisibility(View.INVISIBLE);
-                    customerPhoneNumberInput.setVisibility(View.INVISIBLE);
-                    cakePriceInput.setVisibility(View.INVISIBLE);
-                    deliveryTimeInput.setVisibility(View.INVISIBLE);
-
-                    cakeFlavourInput.setVisibility(View.VISIBLE);
-                    cakeWeightInput.setVisibility(View.VISIBLE);
-                    cakeMsgInput.setVisibility(View.VISIBLE);
-                    isThemeCheckBtn.setVisibility(View.VISIBLE);
-                    // Theme cake description visibility feature
-                    if (isThemeCheckBtn.isChecked() == true) {
-                        themeDescription.setVisibility(View.VISIBLE);
-                    }
-
-                    isThemeCheckBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton, boolean isTrue) {
-                            if (isTrue == true) {
-                                themeDescription.setVisibility(View.VISIBLE);
-                            } else {
-                                themeDescription.setVisibility(View.INVISIBLE);
-                                themeDescription.setText("");
-                            }
-                        }
-                    });
-                // This is for customer details
-                } else {
-                    switchBtn.setText("Customer");
-
-                    nameInput.setVisibility(View.VISIBLE);
-                    deliveryDateInput.setVisibility(View.VISIBLE);
-                    customerPhoneNumberInput.setVisibility(View.VISIBLE);
-                    cakePriceInput.setVisibility(View.VISIBLE);
-                    deliveryTimeInput.setVisibility(View.VISIBLE);
-
-                    cakeFlavourInput.setVisibility(View.INVISIBLE);
-                    cakeWeightInput.setVisibility(View.INVISIBLE);
-                    cakeMsgInput.setVisibility(View.INVISIBLE);
-                    themeDescription.setVisibility(View.INVISIBLE);
-                    isThemeCheckBtn.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
 
     }
 
@@ -263,7 +232,216 @@ public class AddRecord extends AppCompatActivity {
         cakeMsgInput = findViewById(R.id.cakeMsgInput);
         themeDescription = findViewById(R.id.themeDescription);
         isThemeCheckBtn = findViewById(R.id.isThemeCheckBtn);
+        bakeryItemTypeSelector = findViewById(R.id.bakeryItemTypeSelector);
+    }
+
+    private void setOn(int signifier) {
+        if(signifier == 1) {
+
+            nameInput.setVisibility(View.INVISIBLE);
+            deliveryDateInput.setVisibility(View.INVISIBLE);
+            customerPhoneNumberInput.setVisibility(View.INVISIBLE);
+            cakePriceInput.setVisibility(View.INVISIBLE);
+            deliveryTimeInput.setVisibility(View.INVISIBLE);
+
+            cakeWeightInput.setHint("Cake Weight");
+            cakeFlavourInput.setHint("Cake Flavour");
+            cakeMsgInput.setHint("Cake Message");
+
+            cakeFlavourInput.setVisibility(View.VISIBLE);
+            cakeWeightInput.setVisibility(View.VISIBLE);
+            cakeMsgInput.setVisibility(View.VISIBLE);
+            isThemeCheckBtn.setVisibility(View.VISIBLE);
+            // Theme cake description visibility feature
+            if (isThemeCheckBtn.isChecked() == true) {
+                themeDescription.setVisibility(View.VISIBLE);
+            }
+            isThemeCheckBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isTrue) {
+                    if (isTrue == true) {
+                        themeDescription.setVisibility(View.VISIBLE);
+                    } else {
+                        themeDescription.setVisibility(View.INVISIBLE);
+                        themeDescription.setText("");
+                    }
+                }
+            });
+        } else if(signifier == 2) {
+
+            nameInput.setVisibility(View.INVISIBLE);
+            deliveryDateInput.setVisibility(View.INVISIBLE);
+            customerPhoneNumberInput.setVisibility(View.INVISIBLE);
+            cakePriceInput.setVisibility(View.INVISIBLE);
+            deliveryTimeInput.setVisibility(View.INVISIBLE);
+
+            cakeFlavourInput.setVisibility(View.VISIBLE);
+            cakeWeightInput.setVisibility(View.VISIBLE);
+            cakeMsgInput.setVisibility(View.VISIBLE);
+
+            isThemeCheckBtn.setVisibility(View.INVISIBLE);
+
+            cakeWeightInput.setHint("Cheese Cake Weight");
+            cakeFlavourInput.setHint("Cheese Cake Flavour");
+            cakeMsgInput.setHint("Cheese Cake Message");
+        } else if(signifier == 3) {
+            nameInput.setVisibility(View.INVISIBLE);
+            deliveryDateInput.setVisibility(View.INVISIBLE);
+            customerPhoneNumberInput.setVisibility(View.INVISIBLE);
+            cakePriceInput.setVisibility(View.INVISIBLE);
+            deliveryTimeInput.setVisibility(View.INVISIBLE);
+
+            cakeWeightInput.setHint("Cup Cake Quantity");
+            cakeFlavourInput.setHint("Cup Cake Flavour");
+            isThemeCheckBtn.setText("Theme Cup Cake");
+
+            cakeFlavourInput.setVisibility(View.VISIBLE);
+            cakeWeightInput.setVisibility(View.VISIBLE);
+            cakeMsgInput.setVisibility(View.INVISIBLE);
+            isThemeCheckBtn.setVisibility(View.VISIBLE);
+            // Theme cake description visibility feature
+            if (isThemeCheckBtn.isChecked() == true) {
+                themeDescription.setVisibility(View.VISIBLE);
+            }
+            isThemeCheckBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isTrue) {
+                    if (isTrue == true) {
+                        themeDescription.setVisibility(View.VISIBLE);
+                    } else {
+                        themeDescription.setVisibility(View.INVISIBLE);
+                        themeDescription.setText("");
+                    }
+                }
+            });
+        }
 
     }
 
+    private void setOff(int signifier) {
+        if(signifier == 1) {
+
+            nameInput.setVisibility(View.VISIBLE);
+            deliveryDateInput.setVisibility(View.VISIBLE);
+            customerPhoneNumberInput.setVisibility(View.VISIBLE);
+            cakePriceInput.setVisibility(View.VISIBLE);
+            deliveryTimeInput.setVisibility(View.VISIBLE);
+
+            cakePriceInput.setHint("Cake Price");
+
+            cakeFlavourInput.setVisibility(View.INVISIBLE);
+            cakeWeightInput.setVisibility(View.INVISIBLE);
+            cakeMsgInput.setVisibility(View.INVISIBLE);
+            themeDescription.setVisibility(View.INVISIBLE);
+            isThemeCheckBtn.setVisibility(View.INVISIBLE);
+        } else if(signifier == 2) {
+
+            nameInput.setVisibility(View.VISIBLE);
+            deliveryDateInput.setVisibility(View.VISIBLE);
+            customerPhoneNumberInput.setVisibility(View.VISIBLE);
+            cakePriceInput.setVisibility(View.VISIBLE);
+            deliveryTimeInput.setVisibility(View.VISIBLE);
+
+            cakePriceInput.setHint("Cheese Cake Price");
+
+            cakeFlavourInput.setVisibility(View.INVISIBLE);
+            cakeWeightInput.setVisibility(View.INVISIBLE);
+            cakeMsgInput.setVisibility(View.INVISIBLE);
+            themeDescription.setVisibility(View.INVISIBLE);
+            isThemeCheckBtn.setVisibility(View.INVISIBLE);
+        } else if(signifier == 3) {
+            nameInput.setVisibility(View.VISIBLE);
+            deliveryDateInput.setVisibility(View.VISIBLE);
+            customerPhoneNumberInput.setVisibility(View.VISIBLE);
+            cakePriceInput.setVisibility(View.VISIBLE);
+            deliveryTimeInput.setVisibility(View.VISIBLE);
+
+            cakePriceInput.setHint("Cup Cake Price");
+
+            cakeFlavourInput.setVisibility(View.INVISIBLE);
+            cakeWeightInput.setVisibility(View.INVISIBLE);
+            cakeMsgInput.setVisibility(View.INVISIBLE);
+            themeDescription.setVisibility(View.INVISIBLE);
+            isThemeCheckBtn.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if(parent.getId() == R.id.bakeryItemTypeSelector) {
+            String valFromSpinner = parent.getItemAtPosition(position).toString();
+            BakeryType = valFromSpinner;
+            Log.d("AddRecord", "onItemSelected: Item-" + valFromSpinner);
+            if(valFromSpinner.equals("Cake")) {
+                Log.d("AddRecord", "onItemSelected: Entered Cake");
+                if(switchBtn.isChecked() == false) {
+                    switchBtn.setText("Customer");
+                    setOff(1);
+                } else {
+                    switchBtn.setText("Cake");
+                    setOn(1);
+                }
+                switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                        if(isChecked == false) {
+                            switchBtn.setText("Customer");
+                            setOff(1);
+                        } else {
+                            switchBtn.setText("Cake");
+                            setOn(1);
+                        }
+                    }
+                });
+            } else if(valFromSpinner.equals("Cheese Cake")) {
+                Log.d("AddRecord", "onItemSelected: Entered Cheese Cake");
+                if(switchBtn.isChecked() == false) {
+                    switchBtn.setText("Customer");
+                    setOff(2);
+                } else {
+                    switchBtn.setText("Cheese Cake");
+                    setOn(2);
+                }
+                switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                        if(isChecked == false) {
+                            switchBtn.setText("Customer");
+                            setOff(2);
+                        } else {
+                            switchBtn.setText("Cheese Cake");
+                            setOn(2);
+                        }
+                    }
+                });
+            } else if(valFromSpinner.equals("Cup Cake")) {
+                Log.d("AddRecord", "onItemSelected: Entered Cup Cake");
+                if(switchBtn.isChecked() == false) {
+                    switchBtn.setText("Customer");
+                    setOff(3);
+                } else {
+                    switchBtn.setText("Cup Cake");
+                    setOn(3);
+                }
+                switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                        if(isChecked == false) {
+                            switchBtn.setText("Customer");
+                            setOff(3);
+                        } else {
+                            switchBtn.setText("Cup Cake");
+                            setOn(3);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

@@ -9,6 +9,7 @@ public class OrderDetailsModel {
     private int cakePrice;
     private String DeliveryDate;
     private String DeliveryTime;
+    private String bakeryType;
     // Cake details
     private String cakeFlavour;
     private int cakeWeight;
@@ -16,7 +17,7 @@ public class OrderDetailsModel {
     private Boolean isThemeCake;
     private String themeCakeDescription;
 
-    public OrderDetailsModel(long orderId, String customerName, long phNumber, int cakePrice, String deliveryDate, String deliveryTime, String cakeFlavour, int cakeWeight, String cakeMsg, Boolean isThemeCake, String themeCakeDescription) {
+    public OrderDetailsModel(long orderId, String customerName, long phNumber, int cakePrice, String deliveryDate, String deliveryTime, String cakeFlavour, int cakeWeight, String cakeMsg, Boolean isThemeCake, String themeCakeDescription, String bakeryType) {
         this.OrderId = orderId;
         this.customerName = customerName;
         this.phNumber = phNumber;
@@ -28,6 +29,7 @@ public class OrderDetailsModel {
         this.cakeMsg = cakeMsg;
         this.isThemeCake = isThemeCake;
         this.themeCakeDescription = themeCakeDescription;
+        this.bakeryType = bakeryType;
     }
 
     @Override
@@ -39,12 +41,21 @@ public class OrderDetailsModel {
                 ", cakePrice=" + cakePrice +
                 ", DeliveryDate='" + DeliveryDate + '\'' +
                 ", DeliveryTime='" + DeliveryTime + '\'' +
+                ", bakeryType='" + bakeryType + '\'' +
                 ", cakeFlavour='" + cakeFlavour + '\'' +
                 ", cakeWeight=" + cakeWeight +
                 ", cakeMsg='" + cakeMsg + '\'' +
                 ", isThemeCake=" + isThemeCake +
                 ", themeCakeDescription='" + themeCakeDescription + '\'' +
                 '}';
+    }
+
+    public String getBakeryType() {
+        return bakeryType;
+    }
+
+    public void setBakeryType(String bakeryType) {
+        this.bakeryType = bakeryType;
     }
 
     public long getOrderId() {
