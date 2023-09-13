@@ -43,7 +43,7 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
     private AutoCompleteTextView nameInput, cakeFlavourInput;
     private Spinner bakeryItemTypeSelector;
     private String BakeryType;
-    private ArrayList<String> arrayList;
+    private ArrayList<String> CakeArrayList, CheeseCakeArrayList, CupCakeArrayList, arrayList;
     databaseHelper databaseHelperObj;
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
@@ -56,6 +56,8 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
         setContentView(R.layout.activity_add_record);
 
         initialiseViews();
+        Log.d("AddRecord", "onCreate: Entered");
+        databaseHelperObj = new databaseHelper(AddRecord.this);
 
         // Bakery type dialogBox selector
         String[] bakeryType = getResources().getStringArray(R.array.Bakery_Type_Array);
@@ -64,25 +66,28 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
         bakeryItemTypeSelector.setAdapter(adapter);
         bakeryItemTypeSelector.setOnItemSelectedListener(this);
 
-        databaseHelperObj = new databaseHelper(AddRecord.this);
-        if(bakeryType.equals("Cake")) {
-            arrayList = databaseHelperObj.getName();
-            ArrayAdapter<String> arrayAdapterForCusName = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, arrayList);
-            nameInput.setAdapter(arrayAdapterForCusName);
-        } else if(bakeryType.equals("Cheese Cake")) {
-
-        }
-
         // Auto Suggest feature for customer Name ( using database )
-        databaseHelperObj = new databaseHelper(AddRecord.this);
-
+        arrayList = databaseHelperObj.getName();
+        ArrayAdapter<String> arrayAdapterForCusName = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, arrayList);
+        nameInput.setAdapter(arrayAdapterForCusName);
 
         // Auto Suggest feature for cake Flavour ( using arrayList )
-        String[] cakeFlavourList = getResources().getStringArray(R.array.cakeFlavourList);
-        ArrayAdapter<String> arrayAdapterForCakeFlavour = new ArrayAdapter<String>(AddRecord.this, android.R.layout.simple_list_item_1, cakeFlavourList);
-        cakeFlavourInput.setAdapter(arrayAdapterForCakeFlavour);
-
-
+        if(bakeryType.equals("Cake")) {
+            Log.d("AddRecord", "onCreate: Auto Suggest bakeryType-" + bakeryType);
+            CakeArrayList = databaseHelperObj.getCakeFlavour();
+            ArrayAdapter<String> arrayAdapterForCakeFla = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, arrayList);
+            cakeFlavourInput.setAdapter(arrayAdapterForCakeFla);
+        } else if(bakeryType.equals("Cheese Cake")) {
+            Log.d("AddRecord", "onCreate: Auto Suggest bakeryType-" + bakeryType);
+            CheeseCakeArrayList = databaseHelperObj.getCakeFlavour();
+            ArrayAdapter<String> arrayAdapterForCheeseCakeFla = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, arrayList);
+            cakeFlavourInput.setAdapter(arrayAdapterForCheeseCakeFla);
+        } else if(bakeryType.equals("Cup Cake")) {
+            Log.d("AddRecord", "onCreate: Auto Suggest bakeryType-" + bakeryType);
+            CheeseCakeArrayList = databaseHelperObj.getCakeFlavour();
+            ArrayAdapter<String> arrayAdapterForCupCakeFla = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, arrayList);
+            cakeFlavourInput.setAdapter(arrayAdapterForCupCakeFla);
+        }
 
         // On clicking the Delivery date edtText
         deliveryDateInput.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +126,6 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
             }
         });
 
-
         // On clicking the delivery Time edtTxt
         deliveryTimeInput.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,54 +157,53 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
             }
         });
 
-
-
         // On clicking the submit button
         submitDetailsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                long orderId = generateOrderId();
-                Log.d("AddRecord", "onClick: orderId-" + orderId);
-                String cusName = nameInput.getText().toString();
-                long phNumber = Long.valueOf(customerPhoneNumberInput.getText().toString());
-                int cakePrice = Integer.valueOf(cakePriceInput.getText().toString());
-                String cakeFlavour = cakeFlavourInput.getText().toString();
-                int cakeWeight = Integer.valueOf(cakeWeightInput.getText().toString());
-                String cakeMsg = cakeMsgInput.getText().toString();
-                Boolean isTheme = isThemeCheckBtn.isChecked();
-                String themeCakeDesc = themeDescription.getText().toString();
-
-                OrderDetailsModel orderDetailsModelObj;
-                try {
-                    orderDetailsModelObj = new OrderDetailsModel(orderId, cusName, phNumber, cakePrice, dateDb, timeDb, cakeFlavour, cakeWeight, cakeMsg, isTheme, themeCakeDesc, BakeryType);
-                    Log.d("AddRecord", "onClick: input data:-" + orderDetailsModelObj.getCustomerName());
-                    Toast.makeText(AddRecord.this, "Order Successfully added!", Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    orderDetailsModelObj = new OrderDetailsModel(0, null, 0, 0, null, null, null, 0, null, false, null, null);
-                    Toast.makeText(AddRecord.this, "Filed Empty!", Toast.LENGTH_SHORT).show();
-                }
-
-                //OrderDetailsModel orderDetailsModelObj = new OrderDetailsModel(orderId, cusName, phNumber, cakePrice, dateDb, timeDb, cakeFlavour, cakeWeight, cakeMsg, isTheme, themeCakeDesc);
-                //Log.d("AddRecord", "onClick: input data:-" + orderDetailsModelObj.getCakeMsg());
-                //Toast.makeText(AddRecord.this, "Order Successfully added!", Toast.LENGTH_SHORT).show();
-
-
-                try {
-                    databaseHelper databaseHelperObj = new databaseHelper(AddRecord.this);
-                    Boolean success = databaseHelperObj.insertItem(orderDetailsModelObj);
-                    Log.d("MyTag", "onClick: InsertItem method success:" + success);
-                } catch (Exception e) {
-                    Toast.makeText(AddRecord.this, "Could not add record in DataBase!", Toast.LENGTH_SHORT).show();
-                } finally {
-                    databaseHelperObj.close();
-                }
+                insertItem();
             }
         });
+    }
 
+    private void insertItem() {
+        long orderId = generateOrderId();
 
-        // On clicking the switch button
-
+        if(BakeryType.equals("Cake")) {
+            if(nameInput.getText().toString().trim().length() == 0 || customerPhoneNumberInput.getText().toString().trim().length() == 0
+                    || cakePriceInput.getText().toString().trim().length() == 0 || cakeFlavourInput.getText().toString().trim().length() == 0
+                    || cakeWeightInput.getText().toString().trim().length() == 0 || cakeMsgInput.getText().toString().trim().length() == 0
+                    || dateDb.length() == 0 || timeDb.length() == 0) {
+                Toast.makeText(this, "Some Field Empty!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } else if (BakeryType.equals("Cheese Cake")) {
+            if(nameInput.getText().toString().trim().length() == 0 || customerPhoneNumberInput.getText().toString().trim().length() == 0
+                    || cakePriceInput.getText().toString().trim().length() == 0 || cakeFlavourInput.getText().toString().trim().length() == 0
+                    || cakeWeightInput.getText().toString().trim().length() == 0 || cakeMsgInput.getText().toString().trim().length() == 0
+                    || dateDb.length() == 0 || timeDb.length() == 0) {
+                Toast.makeText(this, "Some Field Empty!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } else if (BakeryType.equals("Cup Cake")) {
+            if(nameInput.getText().toString().trim().length() == 0 || customerPhoneNumberInput.getText().toString().trim().length() == 0
+                    || cakePriceInput.getText().toString().trim().length() == 0 || cakeFlavourInput.getText().toString().trim().length() == 0
+                    || cakeWeightInput.getText().toString().trim().length() == 0 || dateDb.length() == 0 || timeDb.length() == 0) {
+                Toast.makeText(this, "Some Field Empty!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        OrderDetailsModel orderDetailsModelObj = new OrderDetailsModel(orderId, nameInput.getText().toString(),
+                Long.valueOf(customerPhoneNumberInput.getText().toString()), Integer.valueOf(cakePriceInput.getText().toString()),
+                dateDb, timeDb, cakeFlavourInput.getText().toString(), Integer.valueOf(cakeWeightInput.getText().toString()), cakeMsgInput.getText().toString(),
+                isThemeCheckBtn.isChecked(), themeDescription.getText().toString(), BakeryType);
+        Boolean success = databaseHelperObj.insertItem(orderDetailsModelObj);
+        if(success == true) {
+            Toast.makeText(this, "Order Successfully Added!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Error Occurred!", Toast.LENGTH_SHORT).show();
+        }
+        databaseHelperObj.close();
 
     }
 
@@ -209,13 +212,19 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
         Random random = new Random();
         orderId = random.nextInt(200000001-100000001)-100000001;
         Cursor cursor = databaseHelperObj.getAllData();
-        while(cursor.moveToNext()) {
+        if (cursor.moveToFirst() == false) {
+            orderId = random.nextInt(200000001-100000001)-100000001;
+            return Math.abs(orderId);
+        }
+        cursor.moveToFirst();
+        do {
             long temp = cursor.getLong(0);
             if(temp == orderId) {
                 orderId = random.nextInt(200000001-100000001)-100000001;
                 cursor.moveToFirst();
             }
-        }
+        } while(cursor.moveToNext());
+        Log.d("AddRecord", "generateOrderId: orderId-" + Math.abs(orderId));
         return Math.abs(orderId);
     }
 

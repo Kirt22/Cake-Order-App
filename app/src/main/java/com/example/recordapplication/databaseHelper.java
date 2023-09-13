@@ -131,6 +131,7 @@ public class databaseHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_BAKERY_TYPE, orderDetailsModelObj.getBakeryType());
 
         long insert = dbObj.insert(ORDER_RECORD_TABLE, null, cv);
+        //dbObj.close();
         if(insert == -1) {
             return false;
         } else {
@@ -152,8 +153,8 @@ public class databaseHelper extends SQLiteOpenHelper {
             allName.add(cursor.getString(cursor.getColumnIndex(COLUMN_CUSTOMER_NAME)));
             cursor.moveToNext();
         }
-        dbObj.close();
-        cursor.close();
+        //dbObj.close();
+        //cursor.close();
         return allName;
     }
 
@@ -178,6 +179,8 @@ public class databaseHelper extends SQLiteOpenHelper {
         Cursor cursor = dbObj.rawQuery(SQLQuery, args);
         if(cursor.moveToNext())
             Log.d("databaseHelper", "getDataForRV: validity of cursor-" + cursor.getCount());
+        //dbObj.close();
+        //cursor.close();
         return cursor;
     }
 
@@ -201,7 +204,8 @@ public class databaseHelper extends SQLiteOpenHelper {
         String[] args = {String.valueOf(orderId)};
         String SQLQuery = "SELECT * FROM " + ORDER_RECORD_TABLE + " WHERE " + COLUMN_ORDER_ID + " =? ";
         Cursor cursor = dbObj.rawQuery(SQLQuery, args);
-
+        //dbObj.close();
+        //cursor.close();
         return cursor;
     }
 
@@ -212,9 +216,64 @@ public class databaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_CUSTOMER_NAME, cusName);
         int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
+        dbObj.close();
         if (success >= 1) {
             return true;
         }
         return false;
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<String> getCakeFlavour() {
+        SQLiteDatabase dbObj = this.getReadableDatabase();
+        ArrayList<String> cakeFlavour = new ArrayList<>();
+
+        String SQLQuery = "SELECT * FROM " + CAKE_FLAVOUR_TABLE;
+        Cursor cursor = dbObj.rawQuery(SQLQuery, null);
+
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            cakeFlavour.add(cursor.getString(cursor.getColumnIndex(COLUMN_CAKE_FLAVOUR)));
+            cursor.moveToNext();
+        }
+        //dbObj.close();
+        //cursor.close();
+        return cakeFlavour;
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<String> getCheeseCakeFlavour() {
+        SQLiteDatabase dbObj = this.getReadableDatabase();
+        ArrayList<String> CheesecakeFlavour = new ArrayList<>();
+
+        String SQLQuery = "SELECT * FROM " + CHEESE_CAKE_FLAVOUR_TABLE;
+        Cursor cursor = dbObj.rawQuery(SQLQuery, null);
+
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            CheesecakeFlavour.add(cursor.getString(cursor.getColumnIndex(COLUMN_CHEESE_CAKE_FLAVOUR)));
+            cursor.moveToNext();
+        }
+        //dbObj.close();
+        //cursor.close();
+        return CheesecakeFlavour;
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<String> getCupCakeFlavour() {
+        SQLiteDatabase dbObj = this.getReadableDatabase();
+        ArrayList<String> CupcakeFlavour = new ArrayList<>();
+
+        String SQLQuery = "SELECT * FROM " + CUP_CAKE_FLAVOUR_TABLE;
+        Cursor cursor = dbObj.rawQuery(SQLQuery, null);
+
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            CupcakeFlavour.add(cursor.getString(cursor.getColumnIndex(COLUMN_CUP_CAKE_FLAVOUR)));
+            cursor.moveToNext();
+        }
+        //dbObj.close();
+        //cursor.close();
+        return CupcakeFlavour;
     }
 }
