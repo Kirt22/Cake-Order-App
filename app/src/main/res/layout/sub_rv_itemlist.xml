@@ -30,13 +30,13 @@
                 android:id="@+id/SubRvCusNameInp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="4dp"
                 android:text="TextView"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/subRvCusName"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="@+id/SubRvBakeryTypeInp"
+                app:layout_constraintStart_toStartOf="@+id/SubRvBakeryTypeInp"
+                app:layout_constraintTop_toBottomOf="@+id/SubRvBakeryTypeInp" />
 
             <TextView
                 android:id="@+id/SubRvCakeFlaInp"
@@ -81,12 +81,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="4dp"
                 android:text="Customer Name:"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/subRvBakeryType" />
 
             <TextView
                 android:id="@+id/subRvCakeFla"
@@ -135,6 +135,30 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.872"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/subRvBakeryType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="22dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="Bakery Type:"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/SubRvBakeryTypeInp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="22dp"
+                android:text="TextView"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/subRvCusName"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

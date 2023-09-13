@@ -79,12 +79,12 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
             cakeFlavourInput.setAdapter(arrayAdapterForCakeFla);
         } else if(bakeryType.equals("Cheese Cake")) {
             Log.d("AddRecord", "onCreate: Auto Suggest bakeryType-" + bakeryType);
-            CheeseCakeArrayList = databaseHelperObj.getCakeFlavour();
+            CheeseCakeArrayList = databaseHelperObj.getCheeseCakeFlavour();
             ArrayAdapter<String> arrayAdapterForCheeseCakeFla = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, arrayList);
             cakeFlavourInput.setAdapter(arrayAdapterForCheeseCakeFla);
         } else if(bakeryType.equals("Cup Cake")) {
             Log.d("AddRecord", "onCreate: Auto Suggest bakeryType-" + bakeryType);
-            CheeseCakeArrayList = databaseHelperObj.getCakeFlavour();
+            CupCakeArrayList = databaseHelperObj.getCupCakeFlavour();
             ArrayAdapter<String> arrayAdapterForCupCakeFla = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, arrayList);
             cakeFlavourInput.setAdapter(arrayAdapterForCupCakeFla);
         }
@@ -193,18 +193,42 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
                 return;
             }
         }
-        OrderDetailsModel orderDetailsModelObj = new OrderDetailsModel(orderId, nameInput.getText().toString(),
-                Long.valueOf(customerPhoneNumberInput.getText().toString()), Integer.valueOf(cakePriceInput.getText().toString()),
-                dateDb, timeDb, cakeFlavourInput.getText().toString(), Integer.valueOf(cakeWeightInput.getText().toString()), cakeMsgInput.getText().toString(),
-                isThemeCheckBtn.isChecked(), themeDescription.getText().toString(), BakeryType);
-        Boolean success = databaseHelperObj.insertItem(orderDetailsModelObj);
+
+        if(BakeryType.equals("Cake")) {
+            OrderDetailsModel orderDetailsModelObj = new OrderDetailsModel(orderId, nameInput.getText().toString(),
+                    Long.valueOf(customerPhoneNumberInput.getText().toString()), Integer.valueOf(cakePriceInput.getText().toString()),
+                    dateDb, timeDb, cakeFlavourInput.getText().toString(), Integer.valueOf(cakeWeightInput.getText().toString()), cakeMsgInput.getText().toString(),
+                    isThemeCheckBtn.isChecked(), themeDescription.getText().toString(), BakeryType);
+            Boolean success = databaseHelperObj.insertItem(orderDetailsModelObj);
+            Log.d("AddRecord", "insertItem: success-" + success);
+            showToast(success);
+        } else if(BakeryType.equals("Cheese Cake")) {
+            OrderDetailsModel orderDetailsModelObj = new OrderDetailsModel(orderId, nameInput.getText().toString(),
+                    Long.valueOf(customerPhoneNumberInput.getText().toString()), Integer.valueOf(cakePriceInput.getText().toString()),
+                    dateDb, timeDb, cakeFlavourInput.getText().toString(), Integer.valueOf(cakeWeightInput.getText().toString()), cakeMsgInput.getText().toString(),
+                    false, null, BakeryType);
+            Boolean success = databaseHelperObj.insertItem(orderDetailsModelObj);
+            showToast(success);
+        } else if(BakeryType.equals("Cup Cake")) {
+            OrderDetailsModel orderDetailsModelObj = new OrderDetailsModel(orderId, nameInput.getText().toString(),
+                    Long.valueOf(customerPhoneNumberInput.getText().toString()), Integer.valueOf(cakePriceInput.getText().toString()),
+                    dateDb, timeDb, cakeFlavourInput.getText().toString(), Integer.valueOf(cakeWeightInput.getText().toString()), null,
+                    isThemeCheckBtn.isChecked(), themeDescription.getText().toString(), BakeryType);
+            Boolean success = databaseHelperObj.insertItem(orderDetailsModelObj);
+            showToast(success);
+        } else {
+            Toast.makeText(this, "Error!", Toast.LENGTH_SHORT).show();
+        }
+        //databaseHelperObj.close();
+
+    }
+
+    private void showToast(Boolean success) {
         if(success == true) {
             Toast.makeText(this, "Order Successfully Added!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Error Occurred!", Toast.LENGTH_SHORT).show();
         }
-        databaseHelperObj.close();
-
     }
 
     private long generateOrderId() {
@@ -244,6 +268,19 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
         bakeryItemTypeSelector = findViewById(R.id.bakeryItemTypeSelector);
     }
 
+    private void emptyFields() {
+        nameInput.setText("");
+        deliveryTimeInput.setText("");
+        customerPhoneNumberInput.setText("");
+        cakePriceInput.setText("");
+        deliveryDateInput.setText("");
+        cakeMsgInput.setText("");
+        cakeFlavourInput.setText("");
+        cakeWeightInput.setText("");
+        isThemeCheckBtn.setChecked(false);
+        themeDescription.setText("");
+    }
+
     private void setOn(int signifier) {
         if(signifier == 1) {
 
@@ -256,6 +293,7 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
             cakeWeightInput.setHint("Cake Weight");
             cakeFlavourInput.setHint("Cake Flavour");
             cakeMsgInput.setHint("Cake Message");
+            isThemeCheckBtn.setText("Theme Cake");
 
             cakeFlavourInput.setVisibility(View.VISIBLE);
             cakeWeightInput.setVisibility(View.VISIBLE);
@@ -383,6 +421,7 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
             BakeryType = valFromSpinner;
             Log.d("AddRecord", "onItemSelected: Item-" + valFromSpinner);
             if(valFromSpinner.equals("Cake")) {
+                emptyFields();
                 Log.d("AddRecord", "onItemSelected: Entered Cake");
                 if(switchBtn.isChecked() == false) {
                     switchBtn.setText("Customer");
@@ -404,6 +443,7 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
                     }
                 });
             } else if(valFromSpinner.equals("Cheese Cake")) {
+                emptyFields();
                 Log.d("AddRecord", "onItemSelected: Entered Cheese Cake");
                 if(switchBtn.isChecked() == false) {
                     switchBtn.setText("Customer");
@@ -425,6 +465,7 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
                     }
                 });
             } else if(valFromSpinner.equals("Cup Cake")) {
+                emptyFields();
                 Log.d("AddRecord", "onItemSelected: Entered Cup Cake");
                 if(switchBtn.isChecked() == false) {
                     switchBtn.setText("Customer");
@@ -452,5 +493,13 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public ArrayList<String> getCupCakeArrayList() {
+        return CupCakeArrayList;
+    }
+
+    public void setCupCakeArrayList(ArrayList<String> cupCakeArrayList) {
+        CupCakeArrayList = cupCakeArrayList;
     }
 }

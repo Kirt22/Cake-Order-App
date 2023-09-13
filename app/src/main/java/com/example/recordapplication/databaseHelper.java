@@ -188,7 +188,7 @@ public class databaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase dbObj = this.getWritableDatabase();
         String SQLQuery = "DELETE FROM " + ORDER_RECORD_TABLE ;
         dbObj.execSQL(SQLQuery);
-        dbObj.close();
+        //dbObj.close();
     }
 
     // Used for generating OrderId
@@ -216,7 +216,7 @@ public class databaseHelper extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_CUSTOMER_NAME, cusName);
         int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
-        dbObj.close();
+        //dbObj.close();
         if (success >= 1) {
             return true;
         }

@@ -96,7 +96,7 @@ public class GenerateRequiredArrayList {
         } else {
             Log.d("ViewRecord", "onCreate: Current date not found in parentRvModelClassArrayList");
             // If the current date does not exist, creating a new field in the parentRvModelClassArrayList that has current date but no data regarding it
-            subRvModelClass tempSubObj = new subRvModelClass(null, null, null, null, 0);
+            subRvModelClass tempSubObj = new subRvModelClass(null, null, null, null, 0, null);
             ArrayList<subRvModelClass> tempSubArrayList = new ArrayList<>();
             tempSubArrayList.add(tempSubObj);
             parentRvModelClass tempObj = new parentRvModelClass(currDate, tempSubArrayList);
@@ -125,7 +125,8 @@ public class GenerateRequiredArrayList {
                             cursor.getString(6),
                             cursor.getString(3),
                             cursor.getString(4),
-                            cursor.getLong(0)
+                            cursor.getLong(0),
+                            cursor.getString(12)
                     );
                     subItemArrayList.add(subItem);
                 }

@@ -1,15 +1,24 @@
 package com.example.recordapplication;
 
 public class subRvModelClass {
-    String customerName, cakeFlavour, DeliveryDate, DeliveryTime;
+    String customerName, cakeFlavour, DeliveryDate, DeliveryTime, BakeryType;
     long OrderId;
 
-    public subRvModelClass(String customerName, String cakeFlavour, String deliveryDate, String deliveryTime, long orderId) {
+    public subRvModelClass(String customerName, String cakeFlavour, String deliveryDate, String deliveryTime, long orderId, String BakeryType) {
         this.customerName = customerName;
         this.cakeFlavour = cakeFlavour;
         DeliveryDate = deliveryDate;
         DeliveryTime = deliveryTime;
         OrderId = orderId;
+        this.BakeryType = BakeryType;
+    }
+
+    public String getBakeryType() {
+        return BakeryType;
+    }
+
+    public void setBakeryType(String bakeryType) {
+        BakeryType = bakeryType;
     }
 
     public String getCustomerName() {

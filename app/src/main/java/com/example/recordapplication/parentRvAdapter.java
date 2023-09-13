@@ -41,9 +41,13 @@ public class parentRvAdapter extends RecyclerView.Adapter<parentRvAdapter.myView
         holder.parent_rv_tv2.setText(parentItem.getDate());
 
         ArrayList<subRvModelClass> subData = parentItem.getSubRvModelClassArrayList();
-        subRvAdapter childAdapter = new subRvAdapter(subData, context, subRecyclerViewInterface);
-        holder.sub_rv.setLayoutManager(new LinearLayoutManager(context));
-        holder.sub_rv.setAdapter(childAdapter);
+        if(subData.get(0).getCustomerName() == null) {
+            holder.noOrderMsgTxt.setVisibility(View.VISIBLE);
+        } else {
+            subRvAdapter childAdapter = new subRvAdapter(subData, context, subRecyclerViewInterface);
+            holder.sub_rv.setLayoutManager(new LinearLayoutManager(context));
+            holder.sub_rv.setAdapter(childAdapter);
+        }
     }
 
     public void refreshAdapter(ArrayList<parentRvModelClass> newArrayList) {
@@ -59,13 +63,14 @@ public class parentRvAdapter extends RecyclerView.Adapter<parentRvAdapter.myView
 
     class myViewHolder extends RecyclerView.ViewHolder {
 
-        TextView parent_rv_tv2;
+        TextView parent_rv_tv2, noOrderMsgTxt;
         RecyclerView sub_rv;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             parent_rv_tv2 = itemView.findViewById(R.id.parent_rv_tv2);
             sub_rv = itemView.findViewById(R.id.sub_rv);
+            noOrderMsgTxt = itemView.findViewById(R.id.noOrderMsgTxt);
         }
     }
 
