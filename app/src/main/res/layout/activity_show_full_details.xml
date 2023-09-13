@@ -12,6 +12,24 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/bakeryType"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="1dp"
+            android:hint="Bakery Type"
+            app:endIconMode="custom"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deliveryTime">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/customerPhNumber"
             android:layout_width="380dp"
             android:layout_height="wrap_content"
@@ -93,7 +111,7 @@
             app:endIconMode="custom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/deliveryTime">
+            app:layout_constraintTop_toBottomOf="@+id/bakeryType">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -162,7 +180,7 @@
             android:layout_marginTop="25dp"
             android:layout_marginEnd="1dp"
             android:hint="@string/themeCakeDescription"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:boxBackgroundMode="outline"
             app:endIconMode="custom"
             app:layout_constraintEnd_toEndOf="parent"

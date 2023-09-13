@@ -34,7 +34,6 @@
                 android:text="TextView"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/SubRvBakeryTypeInp"
                 app:layout_constraintStart_toStartOf="@+id/SubRvBakeryTypeInp"
                 app:layout_constraintTop_toBottomOf="@+id/SubRvBakeryTypeInp" />
 
@@ -46,8 +45,6 @@
                 android:text="TextView"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/SubRvCusNameInp"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/SubRvCusNameInp"
                 app:layout_constraintTop_toBottomOf="@+id/SubRvCusNameInp" />
 
@@ -59,8 +56,6 @@
                 android:text="TextView"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/SubRvCakeFlaInp"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/SubRvCakeFlaInp"
                 app:layout_constraintTop_toBottomOf="@+id/SubRvCakeFlaInp" />
 
@@ -72,7 +67,6 @@
                 android:text="TextView"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="@+id/SubRvDelDateInp"
                 app:layout_constraintStart_toStartOf="@+id/SubRvDelDateInp"
                 app:layout_constraintTop_toBottomOf="@+id/SubRvDelDateInp" />
 
@@ -153,7 +147,7 @@
                 android:id="@+id/SubRvBakeryTypeInp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="25dp"
+                android:layout_marginStart="45dp"
                 android:layout_marginTop="22dp"
                 android:text="TextView"
                 android:textSize="16sp"

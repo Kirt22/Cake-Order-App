@@ -22,7 +22,7 @@ import com.google.android.material.textfield.TextInputLayout;
 public class ShowFullDetails extends AppCompatActivity {
 
     TextView OrderId;
-    TextInputLayout customerName, deliveryDate, customerPhNumber, deliveryTime, cakePrice, cakeFlavour, cakeWeight, cakeMsg, themeCakeDescription, themeCakeStatus;
+    TextInputLayout customerName, deliveryDate, customerPhNumber, deliveryTime, cakePrice, cakeFlavour, cakeWeight, cakeMsg, themeCakeDescription, themeCakeStatus, bakeryType;
     Button updateBtn, deleteOrderBtn;
     databaseHelper databaseHelperObj = new databaseHelper(this);
 
@@ -52,6 +52,7 @@ public class ShowFullDetails extends AppCompatActivity {
         EditText CakePrice = cakePrice.getEditText();
         EditText Description = themeCakeDescription.getEditText();
         EditText ThemeCakeStatus = themeCakeStatus.getEditText();
+        EditText BakeryType = bakeryType.getEditText();
 
         CusName.setText(cursor.getString(1));
         OrderId.setText(String.valueOf(orderId));
@@ -63,6 +64,7 @@ public class ShowFullDetails extends AppCompatActivity {
         cakeFla.setText(cursor.getString(6));
         CakWeight.setText(String.valueOf(cursor.getInt(7)));
         CakePrice.setText(String.valueOf(cursor.getInt(5)));
+        BakeryType.setText(cursor.getString(11));
         int checked = cursor.getInt(9);
         if(checked == 1) {
             ThemeCakeStatus.setText("True");
@@ -88,6 +90,19 @@ public class ShowFullDetails extends AppCompatActivity {
                 cakeMsg.setEndIconDrawable(R.drawable.baseline_sync_24);
                 themeCakeDescription.setEndIconDrawable(R.drawable.baseline_sync_24);
                 themeCakeStatus.setEndIconDrawable(R.drawable.baseline_sync_24);
+                bakeryType.setEndIconDrawable(R.drawable.baseline_sync_24);
+            }
+        });
+
+        deleteOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean success = databaseHelperObj.deleteOrderByOrderId(orderId);
+                if(success == true) {
+                    Toast.makeText(ShowFullDetails.this, "Order Deleted!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShowFullDetails.this, "Error!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -104,7 +119,134 @@ public class ShowFullDetails extends AppCompatActivity {
             }
         });
 
+        customerPhNumber.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean success = databaseHelperObj.updateCustomerPhoneNumber(orderId, customerPhNumber.getEditText().getText().toString());
+                if(success == true) {
+                    Toast.makeText(ShowFullDetails.this, "Phone Number, Successfully Updated!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShowFullDetails.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
+        deliveryDate.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean success = databaseHelperObj.updateDeliveryDate(orderId, deliveryDate.getEditText().getText().toString());
+                if(success == true) {
+                    Toast.makeText(ShowFullDetails.this, "Delivery Date, Successfully Updated!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShowFullDetails.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        deliveryTime.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean success = databaseHelperObj.updateDeliveryTime(orderId, deliveryTime.getEditText().getText().toString());
+                if(success == true) {
+                    Toast.makeText(ShowFullDetails.this, "Delivery Time, Successfully Updated!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShowFullDetails.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        cakePrice.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean success = databaseHelperObj.updateItemPrice(orderId, cakePrice.getEditText().getText().toString());
+                if(success == true) {
+                    Toast.makeText(ShowFullDetails.this, "Item Price, Successfully Updated!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShowFullDetails.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        cakeFlavour.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean success = databaseHelperObj.updateItemFlavour(orderId, cakeFlavour.getEditText().getText().toString());
+                if(success == true) {
+                    Toast.makeText(ShowFullDetails.this, "Item Flavour, Successfully Updated!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShowFullDetails.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        cakeWeight.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean success = databaseHelperObj.updateItemWeight(orderId, cakeWeight.getEditText().getText().toString());
+                if(success == true) {
+                    Toast.makeText(ShowFullDetails.this, "Item Weight, Successfully Updated!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShowFullDetails.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        cakeMsg.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean success = databaseHelperObj.updateItemMessage(orderId, cakeMsg.getEditText().getText().toString());
+                if(success == true) {
+                    Toast.makeText(ShowFullDetails.this, "Item Message, Successfully Updated!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShowFullDetails.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        themeCakeDescription.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean success = databaseHelperObj.updateThemeCakeDescription(orderId, themeCakeDescription.getEditText().getText().toString());
+                if(success == true) {
+                    Toast.makeText(ShowFullDetails.this, "Theme Cake Description, Successfully Updated!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShowFullDetails.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        themeCakeStatus.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String status = themeCakeStatus.getEditText().getText().toString();
+                boolean success = true;
+                if(status.equals("False") || status.equals("false")) {
+                    success = databaseHelperObj.updateThemeCakeStatus(orderId, 0);
+                    databaseHelperObj.updateThemeCakeDescription(orderId, "");
+                } else if(status.equals("True") || status.equals("true")){
+                    success = databaseHelperObj.updateThemeCakeStatus(orderId, 1);
+                    themeCakeDescription.setVisibility(View.VISIBLE);
+                }
+
+                if(success == true) {
+                    Toast.makeText(ShowFullDetails.this, "Theme Cake Status, Successfully Updated!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShowFullDetails.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        bakeryType.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean success = databaseHelperObj.updateBakeryType(orderId, bakeryType.getEditText().getText().toString());
+                if(success == true) {
+                    Toast.makeText(ShowFullDetails.this, "Bakery Type, Successfully Updated!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ShowFullDetails.this, "Error Occurred!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 
@@ -119,6 +261,7 @@ public class ShowFullDetails extends AppCompatActivity {
         cakeMsg.getEditText().setEnabled(editable);
         themeCakeDescription.getEditText().setEnabled(editable);
         themeCakeStatus.getEditText().setEnabled(editable);
+        bakeryType.getEditText().setEnabled(editable);
     }
 
     void setAllTextInputLayoutsClickable(boolean editable) {
@@ -132,6 +275,7 @@ public class ShowFullDetails extends AppCompatActivity {
         cakeMsg.getEditText().setEnabled(editable);
         themeCakeDescription.getEditText().setEnabled(editable);
         themeCakeStatus.getEditText().setEnabled(editable);
+        bakeryType.getEditText().setEnabled(editable);
     }
 
     private void initialiseViews() {
@@ -148,5 +292,6 @@ public class ShowFullDetails extends AppCompatActivity {
         updateBtn = findViewById(R.id.updateBtn);
         deleteOrderBtn = findViewById(R.id.deleteOrderBtn);
         OrderId = findViewById(R.id.orderId);
+        bakeryType = findViewById(R.id.bakeryType);
     }
 }

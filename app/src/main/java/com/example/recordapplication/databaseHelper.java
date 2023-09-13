@@ -161,24 +161,25 @@ public class databaseHelper extends SQLiteOpenHelper {
     public Cursor getDataForRV() {
 
         // for selecting the start and end date, to select the range in the query
-        String startDate, endDate, currDate;
+        String startDate, endDate;
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        currDate = dateFormat.format(calendar.getTime());
+
         calendar.add(Calendar.DATE, -15);
         startDate = dateFormat.format(calendar.getTime());
         Log.d("databaseHelper", "getDataForRV: startDate in databaseHelper-" + startDate);
+
         calendar.add(Calendar.DATE, 31);
         endDate = dateFormat.format(calendar.getTime());
         Log.d("databaseHelper", "getDataForRV: endDate in databaseHelper-" + endDate);
 
         SQLiteDatabase dbObj = this.getReadableDatabase();
         String SQLQuery = " SELECT * FROM " + ORDER_RECORD_TABLE + " WHERE substr( " + COLUMN_DELIVERY_DATE + " , 1, 4) || '-' || substr( " + COLUMN_DELIVERY_DATE + " , 6, 2) || '-' || substr( " + COLUMN_DELIVERY_DATE + " , 9, 2) BETWEEN ? AND ?" ;
-        //Cursor cursor = dbObj.rawQuery(SQLQuery, new String[] {startDate, endDate});
         String[] args = {startDate, endDate};
         Cursor cursor = dbObj.rawQuery(SQLQuery, args);
         if(cursor.moveToNext())
-            Log.d("databaseHelper", "getDataForRV: validity of cursor-" + cursor.getCount());
+            Log.d("databaseHelper", "getDataForRV: cursor success-" + cursor.moveToNext());
+        cursor.moveToFirst();
         //dbObj.close();
         //cursor.close();
         return cursor;
@@ -212,12 +213,151 @@ public class databaseHelper extends SQLiteOpenHelper {
     public boolean updateCustomerName(long orderId, String cusName) {
         SQLiteDatabase dbObj = this.getWritableDatabase();
         String[] args = {String.valueOf(orderId)};
-        String SQLQuery = "UPDATE " + COLUMN_CUSTOMER_NAME + " WHERE " + COLUMN_ORDER_ID + " =?";
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_CUSTOMER_NAME, cusName);
         int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
         //dbObj.close();
         if (success >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateCustomerPhoneNumber(long orderId, String cusPhoneNumber) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+        String[] args = {String.valueOf(orderId)};
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_CUSTOMER_NAME, cusPhoneNumber);
+        int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
+        //dbObj.close();
+        if (success >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateDeliveryDate(long orderId, String deliveryDate) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+        String[] args = {String.valueOf(orderId)};
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_DELIVERY_DATE, deliveryDate);
+        int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
+        //dbObj.close();
+        if (success >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateDeliveryTime(long orderId, String deliveryTime) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+        String[] args = {String.valueOf(orderId)};
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_DELIVERY_TIME, deliveryTime);
+        int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
+        //dbObj.close();
+        if (success >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateItemPrice(long orderId, String itemPrice) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+        String[] args = {String.valueOf(orderId)};
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_ITEM_PRICE, itemPrice);
+        int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
+        //dbObj.close();
+        if (success >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateItemFlavour(long orderId, String itemFlavour) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+        String[] args = {String.valueOf(orderId)};
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_ITEM_FLAVOUR, itemFlavour);
+        int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
+        //dbObj.close();
+        if (success >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateItemWeight(long orderId, String itemWeight) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+        String[] args = {String.valueOf(orderId)};
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_ITEM_WEIGHT, itemWeight);
+        int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
+        //dbObj.close();
+        if (success >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateItemMessage(long orderId, String itemMessage) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+        String[] args = {String.valueOf(orderId)};
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_ITEM_MESSAGE, itemMessage);
+        int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
+        //dbObj.close();
+        if (success >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateThemeCakeDescription(long orderId, String themeCakeDescription) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+        String[] args = {String.valueOf(orderId)};
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_THEME_CAKE_DESCRIPTION, themeCakeDescription);
+        int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
+        //dbObj.close();
+        if (success >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateThemeCakeStatus(long orderId, int themeCakeStatus) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+        String[] args = {String.valueOf(orderId)};
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_IS_THEME_CAKE, themeCakeStatus);
+        int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
+        //dbObj.close();
+        if (success >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateBakeryType(long orderId, String BakeryType) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+        String[] args = {String.valueOf(orderId)};
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_BAKERY_TYPE, BakeryType);
+        int success = dbObj.update(ORDER_RECORD_TABLE, cv, COLUMN_ORDER_ID + " =? ", args);
+        //dbObj.close();
+        if (success >= 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteOrderByOrderId(long orderId) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+        String[] args = {String.valueOf(orderId)};
+        int success = dbObj.delete(ORDER_RECORD_TABLE, COLUMN_ORDER_ID + " =? ", args);
+        if(success >= 1) {
             return true;
         }
         return false;

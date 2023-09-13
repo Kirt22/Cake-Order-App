@@ -43,7 +43,8 @@ public class parentRvAdapter extends RecyclerView.Adapter<parentRvAdapter.myView
         ArrayList<subRvModelClass> subData = parentItem.getSubRvModelClassArrayList();
         if(subData.get(0).getCustomerName() == null) {
             holder.noOrderMsgTxt.setVisibility(View.VISIBLE);
-        } else {
+        }
+        else {
             subRvAdapter childAdapter = new subRvAdapter(subData, context, subRecyclerViewInterface);
             holder.sub_rv.setLayoutManager(new LinearLayoutManager(context));
             holder.sub_rv.setAdapter(childAdapter);

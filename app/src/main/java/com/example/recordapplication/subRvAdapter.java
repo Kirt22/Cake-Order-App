@@ -39,14 +39,36 @@ public class subRvAdapter extends RecyclerView.Adapter<subRvAdapter.myViewHolder
     @Override
     public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
 
-
+        String bakeryType = subRvModelClassArrayList.get(position).getBakeryType();
+        if(bakeryType.equals("Cake")) {
             holder.SubRvCusNameInp.setText(subRvModelClassArrayList.get(position).getCustomerName());
             holder.SubRvCakeFlaInp.setText(subRvModelClassArrayList.get(position).getCakeFlavour());
             holder.SubRvDelDateInp.setText(subRvModelClassArrayList.get(position).getDeliveryDate());
             holder.SubRvDelTimeInp.setText(subRvModelClassArrayList.get(position).getDeliveryTime());
             holder.subRvOrderIdInp.setText(String.valueOf(subRvModelClassArrayList.get(position).getOrderId()));
+            holder.SubRvBakeryTypeInp.setText(subRvModelClassArrayList.get(position).getBakeryType());
+        } else if (bakeryType.equals("Cheese Cake")) {
+            holder.subRvCakeFla.setText("Cheese Cake Flavour:");
+            holder.SubRvCusNameInp.setText(subRvModelClassArrayList.get(position).getCustomerName());
+            holder.SubRvCakeFlaInp.setText(subRvModelClassArrayList.get(position).getCakeFlavour());
+            holder.SubRvDelDateInp.setText(subRvModelClassArrayList.get(position).getDeliveryDate());
+            holder.SubRvDelTimeInp.setText(subRvModelClassArrayList.get(position).getDeliveryTime());
+            holder.subRvOrderIdInp.setText(String.valueOf(subRvModelClassArrayList.get(position).getOrderId()));
+            holder.SubRvBakeryTypeInp.setText(subRvModelClassArrayList.get(position).getBakeryType());
+        } else if(bakeryType.equals("Cup Cake")) {
+            holder.subRvCakeFla.setText("Cup Cake Flavour:");
+            holder.SubRvCusNameInp.setText(subRvModelClassArrayList.get(position).getCustomerName());
+            holder.SubRvCakeFlaInp.setText(subRvModelClassArrayList.get(position).getCakeFlavour());
+            holder.SubRvDelDateInp.setText(subRvModelClassArrayList.get(position).getDeliveryDate());
+            holder.SubRvDelTimeInp.setText(subRvModelClassArrayList.get(position).getDeliveryTime());
+            holder.subRvOrderIdInp.setText(String.valueOf(subRvModelClassArrayList.get(position).getOrderId()));
+            holder.SubRvBakeryTypeInp.setText(subRvModelClassArrayList.get(position).getBakeryType());
+        } else {
 
-            holder.subRvCardView.setOnClickListener(new View.OnClickListener() {
+        }
+
+
+        holder.subRvCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     subRecyclerViewInterface.itemClicked(subRvModelClassArrayList.get(holder.getAdapterPosition()));
@@ -61,7 +83,7 @@ public class subRvAdapter extends RecyclerView.Adapter<subRvAdapter.myViewHolder
 
     class myViewHolder extends RecyclerView.ViewHolder {
 
-        TextView SubRvCusNameInp, SubRvCakeFlaInp, SubRvDelDateInp, SubRvDelTimeInp, subRvOrderIdInp, SubRvBakeryTypeInp;
+        TextView SubRvCusNameInp, SubRvCakeFlaInp, SubRvDelDateInp, SubRvDelTimeInp, subRvOrderIdInp, SubRvBakeryTypeInp, subRvCakeFla;
         CardView subRvCardView;
 
         public myViewHolder(@NonNull View itemView) {
@@ -73,6 +95,7 @@ public class subRvAdapter extends RecyclerView.Adapter<subRvAdapter.myViewHolder
             subRvCardView = itemView.findViewById(R.id.subRvCardView);
             subRvOrderIdInp = itemView.findViewById(R.id.subRvOrderIdInp);
             SubRvBakeryTypeInp = itemView.findViewById(R.id.SubRvBakeryTypeInp);
+            subRvCakeFla = itemView.findViewById(R.id.subRvCakeFla);
         }
     }
 }

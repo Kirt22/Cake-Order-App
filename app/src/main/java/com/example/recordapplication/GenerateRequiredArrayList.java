@@ -118,7 +118,7 @@ public class GenerateRequiredArrayList {
         ArrayList<subRvModelClass> subItemArrayList = new ArrayList<>();
         try {
             cursor.moveToFirst();
-            while (cursor.moveToNext()) {
+            do {
                 if (Objects.equals(date, cursor.getString(3))) {
                     subRvModelClass subItem = new subRvModelClass(
                             cursor.getString(1),
@@ -126,17 +126,20 @@ public class GenerateRequiredArrayList {
                             cursor.getString(3),
                             cursor.getString(4),
                             cursor.getLong(0),
-                            cursor.getString(12)
+                            cursor.getString(11)
                     );
                     subItemArrayList.add(subItem);
                 }
-            }
+            } while (cursor.moveToNext());
         } catch (Exception e) {
             Log.e("ViewRecord", "setSubArrayList: failed", e);
         } finally {
             if (cursor != null) {
                 cursor.close();
             }
+        }
+        for(int i=0; i<subItemArrayList.size(); i++) {
+            Log.d("GenerateRequiredArrayList", "setSubArrayList: subItemArrayList-" + subItemArrayList.get(i).DeliveryDate);
         }
 
         return subItemArrayList;
