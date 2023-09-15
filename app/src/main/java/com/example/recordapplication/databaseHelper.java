@@ -364,54 +364,67 @@ public class databaseHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public ArrayList<String> getCakeFlavour() {
+    public ArrayList<flavoursModelClass> getCakeFlavour() {
         SQLiteDatabase dbObj = this.getReadableDatabase();
-        ArrayList<String> cakeFlavour = new ArrayList<>();
 
         String SQLQuery = "SELECT * FROM " + CAKE_FLAVOUR_TABLE;
         Cursor cursor = dbObj.rawQuery(SQLQuery, null);
 
+        ArrayList<flavoursModelClass> flavoursModelClassArrayList = new ArrayList<>();
+
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
-            cakeFlavour.add(cursor.getString(cursor.getColumnIndex(COLUMN_CAKE_FLAVOUR)));
+        do {
+            flavoursModelClass flavoursModelClassObj = new flavoursModelClass(
+                    cursor.getColumnIndex(COLUMN_CAKE_ID),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_CAKE_FLAVOUR))
+            );
+            flavoursModelClassArrayList.add(flavoursModelClassObj);
             cursor.moveToNext();
-        }
+        } while(!cursor.isAfterLast());
         //dbObj.close();
         //cursor.close();
-        return cakeFlavour;
+        return flavoursModelClassArrayList;
     }
 
     @SuppressLint("Range")
-    public ArrayList<String> getCheeseCakeFlavour() {
+    public ArrayList<flavoursModelClass> getCheeseCakeFlavour() {
         SQLiteDatabase dbObj = this.getReadableDatabase();
-        ArrayList<String> CheesecakeFlavour = new ArrayList<>();
+        ArrayList<flavoursModelClass> CheesecakeFlavour = new ArrayList<>();
 
         String SQLQuery = "SELECT * FROM " + CHEESE_CAKE_FLAVOUR_TABLE;
         Cursor cursor = dbObj.rawQuery(SQLQuery, null);
 
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
-            CheesecakeFlavour.add(cursor.getString(cursor.getColumnIndex(COLUMN_CHEESE_CAKE_FLAVOUR)));
+        do {
+            flavoursModelClass flavoursModelClassObj = new flavoursModelClass(
+                    cursor.getColumnIndex(COLUMN_CHEESE_CAKE_ID),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_CHEESE_CAKE_FLAVOUR))
+            );
+            CheesecakeFlavour.add(flavoursModelClassObj);
             cursor.moveToNext();
-        }
+        } while(!cursor.isAfterLast());
         //dbObj.close();
         //cursor.close();
         return CheesecakeFlavour;
     }
 
     @SuppressLint("Range")
-    public ArrayList<String> getCupCakeFlavour() {
+    public ArrayList<flavoursModelClass> getCupCakeFlavour() {
         SQLiteDatabase dbObj = this.getReadableDatabase();
-        ArrayList<String> CupcakeFlavour = new ArrayList<>();
+        ArrayList<flavoursModelClass> CupcakeFlavour = new ArrayList<>();
 
         String SQLQuery = "SELECT * FROM " + CUP_CAKE_FLAVOUR_TABLE;
         Cursor cursor = dbObj.rawQuery(SQLQuery, null);
 
         cursor.moveToFirst();
-        while(!cursor.isAfterLast()) {
-            CupcakeFlavour.add(cursor.getString(cursor.getColumnIndex(COLUMN_CUP_CAKE_FLAVOUR)));
+        do {
+            flavoursModelClass flavoursModelClassObj = new flavoursModelClass(
+                    cursor.getColumnIndex(COLUMN_CUP_CAKE_ID),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_CUP_CAKE_FLAVOUR))
+            );
+            CupcakeFlavour.add(flavoursModelClassObj);
             cursor.moveToNext();
-        }
+        } while(!cursor.isAfterLast());
         //dbObj.close();
         //cursor.close();
         return CupcakeFlavour;

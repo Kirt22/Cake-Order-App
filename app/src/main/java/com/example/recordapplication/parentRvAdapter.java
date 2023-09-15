@@ -62,7 +62,7 @@ public class parentRvAdapter extends RecyclerView.Adapter<parentRvAdapter.myView
         return parentRvModelClassArrayList.size();
     }
 
-    class myViewHolder extends RecyclerView.ViewHolder {
+    static class myViewHolder extends RecyclerView.ViewHolder {
 
         TextView parent_rv_tv2, noOrderMsgTxt;
         RecyclerView sub_rv;

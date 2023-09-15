@@ -13,10 +13,13 @@
         android:theme="@style/Theme.RecordApplication"
         tools:targetApi="31">
         <activity
-            android:name=".ShowFullDetails"
+            android:name=".flavourOperations"
             android:exported="false" />
         <activity
-            android:name=".EditRecord"
+            android:name=".FlavourListOperations"
+            android:exported="false" />
+        <activity
+            android:name=".ShowFullDetails"
             android:exported="false" />
         <activity
             android:name=".ViewRecord"

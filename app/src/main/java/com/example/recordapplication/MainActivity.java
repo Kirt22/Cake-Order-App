@@ -6,11 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button addRecordBtn, viewRecordBtn, editRecordBtn, deleteAllBtn;
+    private Button addRecordBtn, viewRecordBtn, flavourListBtn, deleteAllBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // On clicking the edit record button
-        editRecordBtn.setOnClickListener(new View.OnClickListener() {
+        flavourListBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, EditRecord.class);
+                Intent intent = new Intent(MainActivity.this, FlavourListOperations.class);
                 startActivity(intent);
             }
         });
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private void initialiseViews() {
         addRecordBtn = findViewById(R.id.addRecordBtn);
         viewRecordBtn = findViewById(R.id.viewRecordBtn);
-        editRecordBtn = findViewById(R.id.editRecordBtn);
+        flavourListBtn = findViewById(R.id.flavourListBtn);
         deleteAllBtn= findViewById(R.id.deleteAllBtn);
     }
 }

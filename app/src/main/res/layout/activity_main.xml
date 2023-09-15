@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/addRecordBtn" />
 
     <Button
-        android:id="@+id/editRecordBtn"
+        android:id="@+id/flavourListBtn"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Delete All Records"
-        app:layout_constraintEnd_toEndOf="@+id/editRecordBtn"
-        app:layout_constraintStart_toStartOf="@+id/editRecordBtn"
-        app:layout_constraintTop_toBottomOf="@+id/editRecordBtn" />
+        app:layout_constraintEnd_toEndOf="@+id/flavourListBtn"
+        app:layout_constraintStart_toStartOf="@+id/flavourListBtn"
+        app:layout_constraintTop_toBottomOf="@+id/flavourListBtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
