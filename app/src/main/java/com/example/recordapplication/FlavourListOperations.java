@@ -26,7 +26,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
     private String dialogFlavour;
     private ArrayList<flavoursModelClass> cakeFlavourList, cheeseCakeFlavourList, cupCakeFlavourList;
     FlavoursAdapter flavoursAdapter;
-    FlavourRecyclerViewInterface flavourRecyclerViewInterface;
+    //FlavourRecyclerViewInterface flavourRecyclerViewInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +48,11 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
 
         if(bakeryType.equals("Cake")) {
             cakeFlavourList = generateFlavourList(cakeFlavourList, bakeryType);
+            for(int i=0; i<cakeFlavourList.size(); i++) {
+                Log.d("FlavourListOperations", "onCreate: orderId-" + cakeFlavourList.get(i).getId());
+            }
             if(cakeFlavourList != null) {
-                flavoursAdapter = new FlavoursAdapter(cakeFlavourList);
+                flavoursAdapter = new FlavoursAdapter(cakeFlavourList, "Cake", this);
                 flavourListRv.setAdapter(flavoursAdapter);
             } else {
                 Log.d("FlavourListOperations", "onCreate: CakeFlavourList empty");
@@ -57,13 +60,13 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
         } else if(bakeryType.equals("Cheese Cake")) {
             cheeseCakeFlavourList = generateFlavourList(cheeseCakeFlavourList, bakeryType);
             if(cheeseCakeFlavourList != null) {
-                flavoursAdapter = new FlavoursAdapter(cheeseCakeFlavourList);
+                flavoursAdapter = new FlavoursAdapter(cheeseCakeFlavourList, "Cheese Cake", this);
                 flavourListRv.setAdapter(flavoursAdapter);
             }
         } else if(bakeryType.equals("Cup Cake")) {
             cupCakeFlavourList = generateFlavourList(cupCakeFlavourList, bakeryType);
             if(cupCakeFlavourList != null) {
-                flavoursAdapter = new FlavoursAdapter(cupCakeFlavourList);
+                flavoursAdapter = new FlavoursAdapter(cupCakeFlavourList, "Cup Cake", this);
                 flavourListRv.setAdapter(flavoursAdapter);
             }
         } else {
@@ -121,7 +124,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
             if(success == true) {
                 newFlavourList = generateFlavourList(newFlavourList, "Cake");
                 if (flavoursAdapter == null) {
-                    flavoursAdapter = new FlavoursAdapter(newFlavourList);
+                    flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cake", this);
                     flavourListRv.setAdapter(flavoursAdapter);
                 } else {
                     flavoursAdapter.notifyItemInserted(newFlavourList.size());
@@ -134,7 +137,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
             if(success == true) {
                 newFlavourList = generateFlavourList(newFlavourList, "Cheese Cake");
                 if (flavoursAdapter == null) {
-                    flavoursAdapter = new FlavoursAdapter(newFlavourList);
+                    flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cheese Cake", this);
                     flavourListRv.setAdapter(flavoursAdapter);
                 } else {
                     flavoursAdapter.notifyDataSetChanged();
@@ -147,7 +150,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
             if(success == true) {
                 newFlavourList = generateFlavourList(newFlavourList, "Cup Cake");
                 if (flavoursAdapter == null) {
-                    flavoursAdapter = new FlavoursAdapter(newFlavourList);
+                    flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cup Cake", this);
                     flavourListRv.setAdapter(flavoursAdapter);
                 } else {
                     flavoursAdapter.notifyDataSetChanged();
@@ -167,7 +170,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
         if(bakeryType.equals("Cake")) {
             cakeFlavourList = generateFlavourList(cakeFlavourList, bakeryType);
             if(cakeFlavourList != null) {
-                flavoursAdapter = new FlavoursAdapter(cakeFlavourList);
+                flavoursAdapter = new FlavoursAdapter(cakeFlavourList, "Cake", this);
                 flavourListRv.setAdapter(flavoursAdapter);
             } else {
                 Log.d("FlavourListOperations", "onCreate: CakeFlavourList empty");
@@ -175,13 +178,13 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
         } else if(bakeryType.equals("Cheese Cake")) {
             cheeseCakeFlavourList = generateFlavourList(cheeseCakeFlavourList, bakeryType);
             if(cheeseCakeFlavourList != null) {
-                flavoursAdapter = new FlavoursAdapter(cheeseCakeFlavourList);
+                flavoursAdapter = new FlavoursAdapter(cheeseCakeFlavourList, "Cheese Cake", this);
                 flavourListRv.setAdapter(flavoursAdapter);
             }
         } else if(bakeryType.equals("Cup Cake")) {
             cupCakeFlavourList = generateFlavourList(cupCakeFlavourList, bakeryType);
             if(cupCakeFlavourList != null) {
-                flavoursAdapter = new FlavoursAdapter(cupCakeFlavourList);
+                flavoursAdapter = new FlavoursAdapter(cupCakeFlavourList, "Cup Cake", this);
                 flavourListRv.setAdapter(flavoursAdapter);
             }
         } else {
@@ -197,8 +200,12 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
     }
 
     @Override
-    public void itemClicked(flavoursModelClass flavoursModelClassObj) {
+    public void itemClicked(int id, String bakeryType) {
         Intent intent = new Intent(FlavourListOperations.this, flavourOperations.class);
-
+        intent.putExtra("FlavourId", id);
+        intent.putExtra("BakeryType", bakeryType);
+        Log.d("FlavourListOperations", "itemClicked: intent put extra id-" + id);
+        Log.d("FlavourListOperations", "itemClicked: intent put extra bakeryType-" + bakeryType);
+        startActivity(intent);
     }
 }

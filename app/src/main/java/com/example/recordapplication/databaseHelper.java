@@ -375,7 +375,7 @@ public class databaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         do {
             flavoursModelClass flavoursModelClassObj = new flavoursModelClass(
-                    cursor.getColumnIndex(COLUMN_CAKE_ID),
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_CAKE_ID)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_CAKE_FLAVOUR))
             );
             flavoursModelClassArrayList.add(flavoursModelClassObj);
@@ -397,7 +397,7 @@ public class databaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         do {
             flavoursModelClass flavoursModelClassObj = new flavoursModelClass(
-                    cursor.getColumnIndex(COLUMN_CHEESE_CAKE_ID),
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_CHEESE_CAKE_ID)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_CHEESE_CAKE_FLAVOUR))
             );
             CheesecakeFlavour.add(flavoursModelClassObj);
@@ -419,7 +419,7 @@ public class databaseHelper extends SQLiteOpenHelper {
         cursor.moveToFirst();
         do {
             flavoursModelClass flavoursModelClassObj = new flavoursModelClass(
-                    cursor.getColumnIndex(COLUMN_CUP_CAKE_ID),
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_CUP_CAKE_ID)),
                     cursor.getString(cursor.getColumnIndex(COLUMN_CUP_CAKE_FLAVOUR))
             );
             CupcakeFlavour.add(flavoursModelClassObj);
@@ -428,5 +428,94 @@ public class databaseHelper extends SQLiteOpenHelper {
         //dbObj.close();
         //cursor.close();
         return CupcakeFlavour;
+    }
+
+    public Cursor getFlavourForIdAndBakeryType(int id, String bakeryType) {
+        SQLiteDatabase dbObj = this.getReadableDatabase();
+        Cursor cursor = null;
+        Log.d("dbheler", "getFlavourForIdAndBakeryType: entered");
+        if(bakeryType.equals("Cake")) {
+            String[] args = {String.valueOf(id)};
+            String SQLQuery = "SELECT * FROM " + CAKE_FLAVOUR_TABLE + " WHERE " + COLUMN_CAKE_ID + " =? ";
+            cursor = dbObj.rawQuery(SQLQuery, args);
+            Log.d("dbhelper", "getFlavourForIdAndBakeryType: selected Cake");
+        }
+        if(bakeryType.equals("Cheese Cake")) {
+            String[] args = {String.valueOf(id)};
+            String SQLQuery = "SELECT * FROM " + CHEESE_CAKE_FLAVOUR_TABLE + " WHERE " + COLUMN_CHEESE_CAKE_ID + " =? ";
+            cursor = dbObj.rawQuery(SQLQuery, args);
+            Log.d("dbhelper", "getFlavourForIdAndBakeryType: selected Cheese Cake");
+        }
+        if(bakeryType.equals("Cup Cake")) {
+            String[] args = {String.valueOf(id)};
+            String SQLQuery = "SELECT * FROM " + CUP_CAKE_FLAVOUR_TABLE + " WHERE " + COLUMN_CUP_CAKE_ID + " =? ";
+            cursor = dbObj.rawQuery(SQLQuery, args);
+            Log.d("dbhelper", "getFlavourForIdAndBakeryType: selected Cup Cake");
+        }
+
+        Log.d("dbhelper", "getFlavourForIdAndBakeryType: selected null");
+        return cursor;
+        
+        //dbObj.close();
+        //cursor.close();
+    }
+
+    public boolean updateFlavour(int id, String bakeryType, String newFlavour) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+
+        if(bakeryType.equals("Cake")) {
+            String[] args = {String.valueOf(id)};
+            ContentValues cv = new ContentValues();
+            cv.put(COLUMN_CAKE_FLAVOUR, newFlavour);
+            int success = dbObj.update(CAKE_FLAVOUR_TABLE, cv, COLUMN_CAKE_ID + " =? ", args);
+            //dbObj.close();
+            if (success >= 1) {
+                return true;
+            }
+        } else if(bakeryType.equals("Cheese Cake")) {
+            String[] args = {String.valueOf(id)};
+            ContentValues cv = new ContentValues();
+            cv.put(COLUMN_CHEESE_CAKE_FLAVOUR, newFlavour);
+            int success = dbObj.update(CHEESE_CAKE_FLAVOUR_TABLE, cv, COLUMN_CHEESE_CAKE_ID + " =? ", args);
+            //dbObj.close();
+            if (success >= 1) {
+                return true;
+            }
+        } else if(bakeryType.equals("Cup Cake")) {
+            String[] args = {String.valueOf(id)};
+            ContentValues cv = new ContentValues();
+            cv.put(COLUMN_CUP_CAKE_FLAVOUR, newFlavour);
+            int success = dbObj.update(CUP_CAKE_FLAVOUR_TABLE, cv, COLUMN_CUP_CAKE_ID + " =? ", args);
+            //dbObj.close();
+            if (success >= 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteFlavour(int id, String bakeryType) {
+        SQLiteDatabase dbObj = this.getWritableDatabase();
+
+        if(bakeryType.equals("Cake")) {
+            String[] args = {String.valueOf(id)};
+            int success = dbObj.delete(CAKE_FLAVOUR_TABLE, COLUMN_CAKE_ID + " =? ", args);
+            if(success >= 1) {
+                return true;
+            }
+        } else if(bakeryType.equals("Cheese Cake")) {
+            String[] args = {String.valueOf(id)};
+            int success = dbObj.delete(CHEESE_CAKE_FLAVOUR_TABLE, COLUMN_CHEESE_CAKE_ID + " =? ", args);
+            if(success >= 1) {
+                return true;
+            }
+        } else if (bakeryType.equals("Cup Cake")) {
+            String[] args = {String.valueOf(id)};
+            int success = dbObj.delete(CUP_CAKE_FLAVOUR_TABLE, COLUMN_CUP_CAKE_ID + " =? ", args);
+            if(success >= 1) {
+                return true;
+            }
+        }
+        return false;
     }
 }

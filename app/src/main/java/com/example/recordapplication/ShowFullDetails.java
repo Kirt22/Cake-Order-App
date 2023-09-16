@@ -1,22 +1,17 @@
 package com.example.recordapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class ShowFullDetails extends AppCompatActivity {
@@ -289,7 +284,7 @@ public class ShowFullDetails extends AppCompatActivity {
         cakeMsg = findViewById(R.id.cakeMsg);
         themeCakeStatus = findViewById(R.id.themeCakeStatus);
         themeCakeDescription = findViewById(R.id.themeCakeDescription);
-        updateBtn = findViewById(R.id.updateBtn);
+        updateBtn = findViewById(R.id.updateOrderBtn);
         deleteOrderBtn = findViewById(R.id.deleteOrderBtn);
         OrderId = findViewById(R.id.orderId);
         bakeryType = findViewById(R.id.bakeryType);

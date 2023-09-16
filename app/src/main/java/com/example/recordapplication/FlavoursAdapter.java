@@ -2,6 +2,7 @@ package com.example.recordapplication;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,13 @@ import java.util.ArrayList;
 
 public class FlavoursAdapter extends RecyclerView.Adapter<FlavoursAdapter.myViewHolder> {
     ArrayList<flavoursModelClass> newFlavour;
+    String bakeryType;
     FlavourRecyclerViewInterface flavourRecyclerViewInterface;
 
-    public FlavoursAdapter(ArrayList<flavoursModelClass> newFlavour) {
+    public FlavoursAdapter(ArrayList<flavoursModelClass> newFlavour, String bakeryType, FlavourRecyclerViewInterface flavourRecyclerViewInterface) {
         this.newFlavour = newFlavour;
+        this.bakeryType = bakeryType;
+        this.flavourRecyclerViewInterface = flavourRecyclerViewInterface;
     }
 
     @NonNull
@@ -32,12 +36,15 @@ public class FlavoursAdapter extends RecyclerView.Adapter<FlavoursAdapter.myView
     public void onBindViewHolder(@NonNull FlavoursAdapter.myViewHolder holder, int position) {
         String flavour = newFlavour.get(position).getFlavour();
         holder.newFlavour.setText(flavour);
-        flavoursModelClass flavoursModelClassObj = newFlavour.get(position);
+        int Id = newFlavour.get(position).getId();
+
+        Log.d("FlavoursAdapter", "onBindViewHolder: flavour and id-" + flavour + Id );
 
         holder.flavourCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flavourRecyclerViewInterface.itemClicked(flavoursModelClassObj);
+                flavourRecyclerViewInterface.itemClicked(Id, bakeryType);
+                Log.d("FlavoursAdapter", "onClick: Id in interface onClick-" + Id);
             }
         });
     }
