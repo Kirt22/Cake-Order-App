@@ -14,11 +14,13 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-public class flavourOperations extends AppCompatActivity {
+public class flavourOperations extends AppCompatActivity implements DeleteAlertDialog.deleteAlertListener {
 
     TextView BakeryType;
     TextInputLayout flavour;
     Button flavourUpdateBtn, deleteBtn;
+    String bakeryType;
+    int Id;
     databaseHelper dbObj = new databaseHelper(this);
 
     @Override
@@ -29,8 +31,8 @@ public class flavourOperations extends AppCompatActivity {
         initialiseViews();
 
         Intent intent = getIntent();
-        int Id = intent.getIntExtra("FlavourId", 0);
-        String bakeryType = intent.getStringExtra("BakeryType");
+        Id = intent.getIntExtra("FlavourId", 0);
+        bakeryType = intent.getStringExtra("BakeryType");
 
         Log.d("flavoursOperations", "onCreate: FlavourId-" + Id);
         Log.d("flavoursOperations", "onCreate: bakeryType-" + bakeryType);
@@ -58,12 +60,7 @@ public class flavourOperations extends AppCompatActivity {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean success = dbObj.deleteFlavour(Id, bakeryType);
-                if(success == true) {
-                    Toast.makeText(flavourOperations.this, "Flavour Deleted!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(flavourOperations.this, "Failed To Delete", Toast.LENGTH_SHORT).show();
-                }
+                openDialog();
             }
         });
 
@@ -87,5 +84,22 @@ public class flavourOperations extends AppCompatActivity {
         flavour = findViewById(R.id.flavour);
         flavourUpdateBtn = findViewById(R.id.flavourUpdateBtn);
         deleteBtn = findViewById(R.id.deleteBtn);
+    }
+
+    private void openDialog() {
+        DeleteAlertDialog deleteAlertDialog = new DeleteAlertDialog();
+        deleteAlertDialog.show(getSupportFragmentManager(), "Alert on deletion");
+    }
+
+    @Override
+    public void returnSuccess(boolean success) {
+        if(success == true) {
+            boolean dbSuccess = dbObj.deleteFlavour(Id, bakeryType);
+            if(dbSuccess == true) {
+                Toast.makeText(flavourOperations.this, "Flavour Deleted!", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.d("flavoursOperations", "returnSuccess: Failed to delete");
+            }
+        }
     }
 }

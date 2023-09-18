@@ -14,11 +14,12 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-public class ShowFullDetails extends AppCompatActivity {
+public class ShowFullDetails extends AppCompatActivity implements DeleteAlertDialog.deleteAlertListener{
 
     TextView OrderId;
     TextInputLayout customerName, deliveryDate, customerPhNumber, deliveryTime, cakePrice, cakeFlavour, cakeWeight, cakeMsg, themeCakeDescription, themeCakeStatus, bakeryType;
     Button updateBtn, deleteOrderBtn;
+    long orderId;
     databaseHelper databaseHelperObj = new databaseHelper(this);
 
     @Override
@@ -29,7 +30,7 @@ public class ShowFullDetails extends AppCompatActivity {
         initialiseViews();
 
         Intent intent = getIntent();
-        long orderId = intent.getLongExtra("OrderId", 0);
+        orderId = intent.getLongExtra("OrderId", 0);
         if(orderId == 0) {
             Log.e("ShowFullDetails", "onCreate() OrderId-" + orderId);
         }
@@ -92,12 +93,7 @@ public class ShowFullDetails extends AppCompatActivity {
         deleteOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean success = databaseHelperObj.deleteOrderByOrderId(orderId);
-                if(success == true) {
-                    Toast.makeText(ShowFullDetails.this, "Order Deleted!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(ShowFullDetails.this, "Error!", Toast.LENGTH_SHORT).show();
-                }
+                openDialog();
             }
         });
 
@@ -288,5 +284,22 @@ public class ShowFullDetails extends AppCompatActivity {
         deleteOrderBtn = findViewById(R.id.deleteOrderBtn);
         OrderId = findViewById(R.id.orderId);
         bakeryType = findViewById(R.id.bakeryType);
+    }
+
+    private void openDialog() {
+        DeleteAlertDialog deleteAlertDialog = new DeleteAlertDialog();
+        deleteAlertDialog.show(getSupportFragmentManager(), "Alert on deletion");
+    }
+
+    @Override
+    public void returnSuccess(boolean success) {
+        if(success == true) {
+            boolean dbSuccess = databaseHelperObj.deleteOrderByOrderId(orderId);
+            if(dbSuccess == true) {
+                Toast.makeText(ShowFullDetails.this, "Order Deleted!", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.d("ShowFullDetails", "returnSuccess: Failed to delete");
+            }
+        }
     }
 }

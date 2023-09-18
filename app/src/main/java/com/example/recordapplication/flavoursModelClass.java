@@ -9,6 +9,10 @@ public class flavoursModelClass {
         this.flavour = flavour;
     }
 
+    public flavoursModelClass(String flavour) {
+        this.flavour = flavour;
+    }
+
     @Override
     public String toString() {
         return "flavoursModelClass{" +

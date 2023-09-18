@@ -8,10 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -20,12 +20,12 @@ import java.util.ArrayList;
 public class FlavourListOperations extends AppCompatActivity implements FlavourRecyclerViewInterface ,AdapterView.OnItemSelectedListener, FlavourDialog.FlavourDialogListener {
 
     private Spinner flavourSelectorSpinner;
+    private TextView nullFlavourMsg;
     private RecyclerView flavourListRv;
     private FloatingActionButton addFlavourBtn;
     private String bakeryType = "Cake";
-    private String dialogFlavour;
     private ArrayList<flavoursModelClass> cakeFlavourList, cheeseCakeFlavourList, cupCakeFlavourList;
-    FlavoursAdapter flavoursAdapter;
+    private FlavoursAdapter flavoursAdapter;
     //FlavourRecyclerViewInterface flavourRecyclerViewInterface;
 
     @Override
@@ -47,27 +47,28 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
         flavourListRv.setLayoutManager(linearLayoutManager);
 
         if(bakeryType.equals("Cake")) {
-            cakeFlavourList = generateFlavourList(cakeFlavourList, bakeryType);
-            for(int i=0; i<cakeFlavourList.size(); i++) {
-                Log.d("FlavourListOperations", "onCreate: orderId-" + cakeFlavourList.get(i).getId());
-            }
+            cakeFlavourList = generateFlavourList(bakeryType);
             if(cakeFlavourList != null) {
                 flavoursAdapter = new FlavoursAdapter(cakeFlavourList, "Cake", this);
                 flavourListRv.setAdapter(flavoursAdapter);
             } else {
-                Log.d("FlavourListOperations", "onCreate: CakeFlavourList empty");
+                nullFlavourMsg.setVisibility(View.VISIBLE);
             }
         } else if(bakeryType.equals("Cheese Cake")) {
-            cheeseCakeFlavourList = generateFlavourList(cheeseCakeFlavourList, bakeryType);
+            cheeseCakeFlavourList = generateFlavourList(bakeryType);
             if(cheeseCakeFlavourList != null) {
                 flavoursAdapter = new FlavoursAdapter(cheeseCakeFlavourList, "Cheese Cake", this);
                 flavourListRv.setAdapter(flavoursAdapter);
+            } else {
+                nullFlavourMsg.setVisibility(View.VISIBLE);
             }
         } else if(bakeryType.equals("Cup Cake")) {
-            cupCakeFlavourList = generateFlavourList(cupCakeFlavourList, bakeryType);
+            cupCakeFlavourList = generateFlavourList(bakeryType);
             if(cupCakeFlavourList != null) {
                 flavoursAdapter = new FlavoursAdapter(cupCakeFlavourList, "Cup Cake", this);
                 flavourListRv.setAdapter(flavoursAdapter);
+            } else {
+                nullFlavourMsg.setVisibility(View.VISIBLE);
             }
         } else {
             Log.d("FlavourListOperations", "onCreate: Error!");
@@ -86,6 +87,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
         flavourListRv = findViewById(R.id.flavourListRv);
         flavourSelectorSpinner = findViewById(R.id.flavourSelectorSpinner);
         addFlavourBtn = findViewById(R.id.addFlavourBtn);
+        nullFlavourMsg = findViewById(R.id.nullFlavourMsg);
     }
 
     private void openDialog() {
@@ -93,17 +95,18 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
         flavourDialog.show(getSupportFragmentManager(), "Add Flavour Dialog");
     }
 
-    private ArrayList<flavoursModelClass> generateFlavourList(ArrayList<flavoursModelClass> flavourList, String bakeryType) {
+    private ArrayList<flavoursModelClass> generateFlavourList(String bakeryType) {
         databaseHelper dbObj = new databaseHelper(FlavourListOperations.this);
 
+        ArrayList<flavoursModelClass> flavourList;
         if(bakeryType.equals("Cake")) {
-            flavourList = dbObj.getCakeFlavour();
+            flavourList = dbObj.getCakeItems();
             return flavourList;
         } else if(bakeryType.equals("Cheese Cake")) {
-            flavourList = dbObj.getCheeseCakeFlavour();
+            flavourList = dbObj.getCheeseCakeItems();
             return flavourList;
         } else if(bakeryType.equals("Cup Cake")) {
-            flavourList = dbObj.getCupCakeFlavour();
+            flavourList = dbObj.getCupCakeItems();
             return flavourList;
         } else {
             Log.d("FlavourListOperations", "generateFlavourList: Error!");
@@ -112,9 +115,9 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
         return null;
     }
 
+    // code for selecting from Add button
     @Override
     public void applyText(String newFlavour) {
-        dialogFlavour = newFlavour;
         databaseHelper dbObj = new databaseHelper(this);
         boolean success;
         ArrayList<flavoursModelClass> newFlavourList = new ArrayList<>();
@@ -122,7 +125,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
         if(bakeryType.equals("Cake")) {
             success = dbObj.insertCakeFlavour(newFlavour);
             if(success == true) {
-                newFlavourList = generateFlavourList(newFlavourList, "Cake");
+                newFlavourList = generateFlavourList("Cake");
                 if (flavoursAdapter == null) {
                     flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cake", this);
                     flavourListRv.setAdapter(flavoursAdapter);
@@ -135,7 +138,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
         } else if(bakeryType.equals("Cheese Cake")) {
             success = dbObj.insertCheeseCakeFlavour(newFlavour);
             if(success == true) {
-                newFlavourList = generateFlavourList(newFlavourList, "Cheese Cake");
+                newFlavourList = generateFlavourList("Cheese Cake");
                 if (flavoursAdapter == null) {
                     flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cheese Cake", this);
                     flavourListRv.setAdapter(flavoursAdapter);
@@ -148,7 +151,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
         } else if(bakeryType.equals("Cup Cake")) {
             success = dbObj.insertCupCakeFlavour(newFlavour);
             if(success == true) {
-                newFlavourList = generateFlavourList(newFlavourList, "Cup Cake");
+                newFlavourList = generateFlavourList("Cup Cake");
                 if (flavoursAdapter == null) {
                     flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cup Cake", this);
                     flavourListRv.setAdapter(flavoursAdapter);
@@ -162,30 +165,40 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
         }
     }
 
+
+    // Code for selecting from spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String valFromSpinner = parent.getItemAtPosition(position).toString();
         bakeryType = valFromSpinner;
-
+        nullFlavourMsg.setVisibility(View.INVISIBLE);
+        flavourListRv.setVisibility(View.INVISIBLE);
         if(bakeryType.equals("Cake")) {
-            cakeFlavourList = generateFlavourList(cakeFlavourList, bakeryType);
+            cakeFlavourList = generateFlavourList(bakeryType);
             if(cakeFlavourList != null) {
+                flavourListRv.setVisibility(View.VISIBLE);
                 flavoursAdapter = new FlavoursAdapter(cakeFlavourList, "Cake", this);
                 flavourListRv.setAdapter(flavoursAdapter);
             } else {
-                Log.d("FlavourListOperations", "onCreate: CakeFlavourList empty");
+                nullFlavourMsg.setVisibility(View.VISIBLE);
             }
         } else if(bakeryType.equals("Cheese Cake")) {
-            cheeseCakeFlavourList = generateFlavourList(cheeseCakeFlavourList, bakeryType);
+            cheeseCakeFlavourList = generateFlavourList(bakeryType);
             if(cheeseCakeFlavourList != null) {
+                flavourListRv.setVisibility(View.VISIBLE);
                 flavoursAdapter = new FlavoursAdapter(cheeseCakeFlavourList, "Cheese Cake", this);
                 flavourListRv.setAdapter(flavoursAdapter);
+            } else {
+                nullFlavourMsg.setVisibility(View.VISIBLE);
             }
         } else if(bakeryType.equals("Cup Cake")) {
-            cupCakeFlavourList = generateFlavourList(cupCakeFlavourList, bakeryType);
+            cupCakeFlavourList = generateFlavourList(bakeryType);
             if(cupCakeFlavourList != null) {
+                flavourListRv.setVisibility(View.VISIBLE);
                 flavoursAdapter = new FlavoursAdapter(cupCakeFlavourList, "Cup Cake", this);
                 flavourListRv.setAdapter(flavoursAdapter);
+            } else  {
+                nullFlavourMsg.setVisibility(View.VISIBLE);
             }
         } else {
             Log.d("FlavourListOperations", "onCreate: Error!");

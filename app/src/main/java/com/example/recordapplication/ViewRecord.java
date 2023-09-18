@@ -14,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +30,7 @@ import java.util.stream.Collectors;
 public class ViewRecord extends AppCompatActivity implements SubRecyclerViewInterface{
 
     private RecyclerView parentRecyclerView;
+    private FloatingActionButton searchBtn;
     ArrayList<parentRvModelClass> parentRvModelClassArrayList;
     ArrayList<subRvModelClass> subRvModelClassArrayList;
     GenerateRequiredArrayList genArrayObj;
@@ -58,6 +61,8 @@ public class ViewRecord extends AppCompatActivity implements SubRecyclerViewInte
         int currIndx = findPosByDate(currDate);
         parentRecyclerView.scrollToPosition(currIndx);
 
+        
+
     }
 
     private int findPosByDate(String currDate) {
@@ -77,6 +82,7 @@ public class ViewRecord extends AppCompatActivity implements SubRecyclerViewInte
 
     private void intiViews() {
         parentRecyclerView = findViewById(R.id.parentRecyclerView);
+        searchBtn = findViewById(R.id.searchBtn);
     }
 
     @Override

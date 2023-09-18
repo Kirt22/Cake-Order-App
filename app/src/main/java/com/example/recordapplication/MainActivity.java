@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initialiseViews();
+        initialiseViews(); // def name_function() {  }
 
         // On clicking the Add record button
         addRecordBtn.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void initialiseViews() {
+    private void initialiseViews() { // def fun_name( )
         addRecordBtn = findViewById(R.id.addRecordBtn);
         viewRecordBtn = findViewById(R.id.viewRecordBtn);
         flavourListBtn = findViewById(R.id.flavourListBtn);

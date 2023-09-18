@@ -59,48 +59,11 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
         Log.d("AddRecord", "onCreate: Entered");
         databaseHelperObj = new databaseHelper(AddRecord.this);
 
-        // Bakery type Spinner Dropbox selector
-        String[] bakeryType = getResources().getStringArray(R.array.Bakery_Type_Array);
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, bakeryType);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        bakeryItemTypeSelector.setAdapter(adapter);
-        bakeryItemTypeSelector.setOnItemSelectedListener(this);
+        bakeryTypeSpinnerDropBox();
 
-        // Auto Suggest feature for customer Name ( using database )
-        arrayList = databaseHelperObj.getName();
-        ArrayAdapter<String> arrayAdapterForCusName = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, arrayList);
-        nameInput.setAdapter(arrayAdapterForCusName);
+        autoSuggestNameForCustomer();
 
-        // Auto Suggest feature for cake Flavour ( using database )
-
-        ArrayList<flavoursModelClass> flavoursModelClassArrayList = new ArrayList<>();
-
-        if (bakeryType.equals("Cake")) {
-            Log.d("AddRecord", "onCreate: Auto Suggest bakeryType-" + bakeryType);
-            flavoursModelClassArrayList = databaseHelperObj.getCakeFlavour();
-            for (int i = 0; i < flavoursModelClassArrayList.size(); i++) {
-                CakeArrayList.add(flavoursModelClassArrayList.get(i).getFlavour());
-            }
-            ArrayAdapter<String> arrayAdapterForCakeFla = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, CakeArrayList);
-            cakeFlavourInput.setAdapter(arrayAdapterForCakeFla);
-        } else if (bakeryType.equals("Cheese Cake")) {
-            Log.d("AddRecord", "onCreate: Auto Suggest bakeryType-" + bakeryType);
-            flavoursModelClassArrayList = databaseHelperObj.getCheeseCakeFlavour();
-            for (int i=0; i < flavoursModelClassArrayList.size(); i++) {
-                CheeseCakeArrayList.add(flavoursModelClassArrayList.get(i).getFlavour());
-            }
-            ArrayAdapter<String> arrayAdapterForCheeseCakeFla = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, CheeseCakeArrayList);
-            cakeFlavourInput.setAdapter(arrayAdapterForCheeseCakeFla);
-        } else if (bakeryType.equals("Cup Cake")) {
-            Log.d("AddRecord", "onCreate: Auto Suggest bakeryType-" + bakeryType);
-            flavoursModelClassArrayList = databaseHelperObj.getCupCakeFlavour();
-            for (int i = 0; i < flavoursModelClassArrayList.size(); i++) {
-                CupCakeArrayList.add(flavoursModelClassArrayList.get(i).getFlavour());
-            }
-            ArrayAdapter<String> arrayAdapterForCupCakeFla = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, CupCakeArrayList);
-            cakeFlavourInput.setAdapter(arrayAdapterForCupCakeFla);
-        }
-
+        autoSuggestNameForFlavour(BakeryType);
 
         // On clicking the Delivery date edtText
         deliveryDateInput.setOnClickListener(new View.OnClickListener() {
@@ -281,6 +244,44 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
         bakeryItemTypeSelector = findViewById(R.id.bakeryItemTypeSelector);
     }
 
+    private void autoSuggestNameForCustomer() {
+        // Auto Suggest feature for customer Name ( using database )
+        Log.d("AddRecord", "autoSuggestNameForCustomer: entered");
+        arrayList = databaseHelperObj.getName();
+        ArrayAdapter<String> arrayAdapterForCusName = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, arrayList);
+        nameInput.setAdapter(arrayAdapterForCusName);
+    }
+
+    private void autoSuggestNameForFlavour(String BakeryType) {
+        // Auto Suggest feature for cake Flavour ( using database )
+
+        if (BakeryType.equals("Cake")) {
+            Log.d("AddRecord", "onCreate: Auto Suggest bakeryType-" + BakeryType);
+            CakeArrayList = databaseHelperObj.getCakeFlavour();
+            ArrayAdapter<String> arrayAdapterForCakeFla = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, CakeArrayList);
+            cakeFlavourInput.setAdapter(arrayAdapterForCakeFla);
+        } else if (BakeryType.equals("Cheese Cake")) {
+            Log.d("AddRecord", "onCreate: Auto Suggest bakeryType-" + BakeryType);
+            CheeseCakeArrayList = databaseHelperObj.getCheeseCakeFlavour();
+            ArrayAdapter<String> arrayAdapterForCheeseCakeFla = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, CheeseCakeArrayList);
+            cakeFlavourInput.setAdapter(arrayAdapterForCheeseCakeFla);
+        } else if (BakeryType.equals("Cup Cake")) {
+            Log.d("AddRecord", "onCreate: Auto Suggest bakeryType-" + BakeryType);
+            CupCakeArrayList = databaseHelperObj.getCupCakeFlavour();
+            ArrayAdapter<String> arrayAdapterForCupCakeFla = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, CupCakeArrayList);
+            cakeFlavourInput.setAdapter(arrayAdapterForCupCakeFla);
+        }
+    }
+
+    public void bakeryTypeSpinnerDropBox() {
+        // Bakery type Spinner Dropbox selector
+        String[] bakeryType = getResources().getStringArray(R.array.Bakery_Type_Array);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, bakeryType);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        bakeryItemTypeSelector.setAdapter(adapter);
+        bakeryItemTypeSelector.setOnItemSelectedListener(this);
+    }
+
     private void emptyFields() {
         nameInput.setText("");
         deliveryTimeInput.setText("");
@@ -432,6 +433,7 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
         if (parent.getId() == R.id.bakeryItemTypeSelector) {
             String valFromSpinner = parent.getItemAtPosition(position).toString();
             BakeryType = valFromSpinner;
+            autoSuggestNameForFlavour(BakeryType);
             Log.d("AddRecord", "onItemSelected: Item-" + valFromSpinner);
             if (valFromSpinner.equals("Cake")) {
                 emptyFields();
@@ -506,13 +508,5 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    public ArrayList<String> getCupCakeArrayList() {
-        return CupCakeArrayList;
-    }
-
-    public void setCupCakeArrayList(ArrayList<String> cupCakeArrayList) {
-        CupCakeArrayList = cupCakeArrayList;
     }
 }
