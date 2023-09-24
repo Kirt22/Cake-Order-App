@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 
-public class GenerateRequiredArrayList {
+public class GenerateRequiredOrdersArrayList {
 
     public ArrayList<parentRvModelClass> generateArrayList(Context context) {
 
@@ -139,7 +139,7 @@ public class GenerateRequiredArrayList {
             }
         }
         for(int i=0; i<subItemArrayList.size(); i++) {
-            Log.d("GenerateRequiredArrayList", "setSubArrayList: subItemArrayList-" + subItemArrayList.get(i).DeliveryDate);
+            Log.d("GenerateRequiredOrdersArrayList", "setSubArrayList: subItemArrayList-" + subItemArrayList.get(i).DeliveryDate);
         }
 
         return subItemArrayList;

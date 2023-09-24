@@ -65,4 +65,21 @@ public class FlavoursAdapter extends RecyclerView.Adapter<FlavoursAdapter.myView
             newFlavour = itemView.findViewById(R.id.newFlavour);
         }
     }
+
+    public void adapterChange(ArrayList<flavoursModelClass> newFlavoursArrayList) {
+        if(newFlavour != null) {
+            newFlavour.clear();
+            newFlavour = newFlavoursArrayList;
+            notifyDataSetChanged();
+        } else {
+            Log.d("FlavoursAdapter", "adapterChange: null- entered");
+            newFlavour = new ArrayList<>(newFlavoursArrayList);
+            //notifyDataSetChanged();
+            notifyItemInserted(0);
+        }
+    }
+
+    public ArrayList<flavoursModelClass> getArrayList() {
+        return newFlavour;
+    }
 }

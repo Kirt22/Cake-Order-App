@@ -26,6 +26,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
     private String bakeryType = "Cake";
     private ArrayList<flavoursModelClass> cakeFlavourList, cheeseCakeFlavourList, cupCakeFlavourList;
     private FlavoursAdapter flavoursAdapter;
+    FlavoursAdapter globalAdapter = new FlavoursAdapter(null, "Cake" , this);
     //FlavourRecyclerViewInterface flavourRecyclerViewInterface;
 
     @Override
@@ -35,6 +36,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
 
         initialiseViews();
 
+        // Setting the spinner up
         String[] bakeryTypeList = getResources().getStringArray(R.array.Bakery_Type_Array);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, bakeryTypeList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -50,6 +52,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
             cakeFlavourList = generateFlavourList(bakeryType);
             if(cakeFlavourList != null) {
                 flavoursAdapter = new FlavoursAdapter(cakeFlavourList, "Cake", this);
+                globalAdapter = flavoursAdapter;
                 flavourListRv.setAdapter(flavoursAdapter);
             } else {
                 nullFlavourMsg.setVisibility(View.VISIBLE);
@@ -91,7 +94,7 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
     }
 
     private void openDialog() {
-        FlavourDialog flavourDialog = new FlavourDialog();
+        FlavourDialog flavourDialog = new FlavourDialog(globalAdapter);
         flavourDialog.show(getSupportFragmentManager(), "Add Flavour Dialog");
     }
 
@@ -114,57 +117,6 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
 
         return null;
     }
-
-    // code for selecting from Add button
-    @Override
-    public void applyText(String newFlavour) {
-        databaseHelper dbObj = new databaseHelper(this);
-        boolean success;
-        ArrayList<flavoursModelClass> newFlavourList = new ArrayList<>();
-
-        if(bakeryType.equals("Cake")) {
-            success = dbObj.insertCakeFlavour(newFlavour);
-            if(success == true) {
-                newFlavourList = generateFlavourList("Cake");
-                if (flavoursAdapter == null) {
-                    flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cake", this);
-                    flavourListRv.setAdapter(flavoursAdapter);
-                } else {
-                    flavoursAdapter.notifyItemInserted(newFlavourList.size());
-                }
-            }else {
-                Log.d("FlavourListOperations", "applyText: error");
-            }
-        } else if(bakeryType.equals("Cheese Cake")) {
-            success = dbObj.insertCheeseCakeFlavour(newFlavour);
-            if(success == true) {
-                newFlavourList = generateFlavourList("Cheese Cake");
-                if (flavoursAdapter == null) {
-                    flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cheese Cake", this);
-                    flavourListRv.setAdapter(flavoursAdapter);
-                } else {
-                    flavoursAdapter.notifyDataSetChanged();
-                }
-            } else {
-                Log.d("FlavourListOperations", "applyText: error");
-            }
-        } else if(bakeryType.equals("Cup Cake")) {
-            success = dbObj.insertCupCakeFlavour(newFlavour);
-            if(success == true) {
-                newFlavourList = generateFlavourList("Cup Cake");
-                if (flavoursAdapter == null) {
-                    flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cup Cake", this);
-                    flavourListRv.setAdapter(flavoursAdapter);
-                } else {
-                    flavoursAdapter.notifyDataSetChanged();
-                }
-            }
-            flavoursAdapter.notifyDataSetChanged();
-        } else {
-            Log.d("FlavourListOperations", "applyText: Failed to add item");
-        }
-    }
-
 
     // Code for selecting from spinner
     @Override
@@ -220,5 +172,59 @@ public class FlavourListOperations extends AppCompatActivity implements FlavourR
         Log.d("FlavourListOperations", "itemClicked: intent put extra id-" + id);
         Log.d("FlavourListOperations", "itemClicked: intent put extra bakeryType-" + bakeryType);
         startActivity(intent);
+    }
+
+    @Override
+    public void applyText(String newFlavour, FlavoursAdapter flavourAdapter) {
+        databaseHelper dbObj = new databaseHelper(this);
+        boolean success;
+        ArrayList<flavoursModelClass> newFlavourList = new ArrayList<>();
+
+        if(bakeryType.equals("Cake")) {
+            success = dbObj.insertCakeFlavour(newFlavour);
+            if(success == true) {
+                newFlavourList = generateFlavourList("Cake");
+                //flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cake", this);
+                if(flavoursAdapter == null) {
+                    //flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cake", this);
+                    flavourListRv.setAdapter(flavoursAdapter);  
+                    nullFlavourMsg.setVisibility(View.INVISIBLE);
+                    flavoursAdapter.adapterChange(newFlavourList);
+                    Log.d("FlavourListOperations", "applyText: if entered");
+                } else {
+                    Log.d("FlavourListOperations", "applyText: else entered");
+                    nullFlavourMsg.setVisibility(View.INVISIBLE);
+                    flavoursAdapter.adapterChange(newFlavourList);
+                }
+
+            }
+        } else if(bakeryType.equals("Cheese Cake")) {
+            success = dbObj.insertCheeseCakeFlavour(newFlavour);
+            if(success == true) {
+                newFlavourList = generateFlavourList("Cheese Cake");
+                if (flavoursAdapter == null) {
+                    flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cheese Cake", this);
+                    flavourListRv.setAdapter(flavoursAdapter);
+                } else {
+                    flavoursAdapter.notifyDataSetChanged();
+                }
+            } else {
+                Log.d("FlavourListOperations", "applyText: error");
+            }
+        } else if(bakeryType.equals("Cup Cake")) {
+            success = dbObj.insertCupCakeFlavour(newFlavour);
+            if(success == true) {
+                newFlavourList = generateFlavourList("Cup Cake");
+                if (flavoursAdapter == null) {
+                    flavoursAdapter = new FlavoursAdapter(newFlavourList, "Cup Cake", this);
+                    flavourListRv.setAdapter(flavoursAdapter);
+                } else {
+                    flavoursAdapter.notifyDataSetChanged();
+                }
+            }
+            flavoursAdapter.notifyDataSetChanged();
+        } else {
+            Log.d("FlavourListOperations", "applyText: Failed to add item");
+        }
     }
 }

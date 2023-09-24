@@ -372,7 +372,7 @@ public class databaseHelper extends SQLiteOpenHelper {
 
         ArrayList<flavoursModelClass> flavoursModelClassArrayList = new ArrayList<>();
 
-        if(cursor.moveToNext() == false) {
+        if(cursor.moveToFirst() == false) {
             return null;
         }
 
@@ -383,8 +383,7 @@ public class databaseHelper extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex(COLUMN_CAKE_FLAVOUR))
             );
             flavoursModelClassArrayList.add(flavoursModelClassObj);
-            cursor.moveToNext();
-        } while(!cursor.isAfterLast());
+        } while(cursor.moveToNext());
         //dbObj.close();
         //cursor.close();
         return flavoursModelClassArrayList;

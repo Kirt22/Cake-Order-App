@@ -1,5 +1,6 @@
 package com.example.recordapplication;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,9 +14,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import java.util.ArrayList;
+
+
 public class FlavourDialog extends AppCompatDialogFragment {
     EditText addFlavourInp;
     private FlavourDialogListener listener;
+    FlavoursAdapter flavoursAdapter;
+
+    public FlavourDialog(FlavoursAdapter flavoursAdapter) {
+        this.flavoursAdapter = flavoursAdapter;
+    }
 
     @NonNull
     @Override
@@ -35,7 +44,7 @@ public class FlavourDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String newFlavour = addFlavourInp.getText().toString();
-                        listener.applyText(newFlavour);
+                        listener.applyText(newFlavour, flavoursAdapter);
                     }
                 });
 
@@ -54,11 +63,11 @@ public class FlavourDialog extends AppCompatDialogFragment {
         try {
             listener = (FlavourDialogListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "Must implement FlavourDialog listener");
+            throw new ClassCastException(context + "Must implement FlavourDialog listener");
         }
     }
 
     public interface FlavourDialogListener {
-        void applyText(String newFlavour);
+        void applyText(String newFlavour, FlavoursAdapter flavourAdapter);
     }
 }
