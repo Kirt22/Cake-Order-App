@@ -13,19 +13,19 @@
         android:theme="@style/Theme.RecordApplication"
         tools:targetApi="31">
         <activity
-            android:name=".flavourOperations"
+            android:name=".FlavourListOperationsFiles.FlavourOperationsFiles.flavourOperations"
             android:exported="false" />
         <activity
-            android:name=".FlavourListOperations"
+            android:name=".FlavourListOperationsFiles.FlavourListOperations"
             android:exported="false" />
         <activity
-            android:name=".ShowFullDetails"
+            android:name=".ViewRecordFiles.ShowFullDetailsFiles.ShowFullDetails"
             android:exported="false" />
         <activity
-            android:name=".ViewRecord"
+            android:name=".ViewRecordFiles.ViewRecord"
             android:exported="false" />
         <activity
-            android:name=".AddRecord"
+            android:name=".AddRecordFiles.AddRecord"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

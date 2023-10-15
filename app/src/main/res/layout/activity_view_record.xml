@@ -5,7 +5,7 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewRecord"
+    tools:context=".ViewRecordFiles.ViewRecord"
     tools:ignore="MissingClass">
 
     <androidx.recyclerview.widget.RecyclerView

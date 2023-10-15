@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Record Application</string>
+    <string name="app_name">Cake Orders Manager</string>
     <string name="CustomerName">Customer Name</string>
     <string name="DeliveryDate">Delivery Date</string>
     <string name="PhoneNumber">Phone Number</string>

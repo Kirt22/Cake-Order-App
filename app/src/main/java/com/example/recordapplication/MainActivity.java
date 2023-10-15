@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.recordapplication.AddRecordFiles.AddRecord;
+import com.example.recordapplication.FlavourListOperationsFiles.FlavourListOperations;
+import com.example.recordapplication.ViewRecordFiles.ViewRecord;
+
 public class MainActivity extends AppCompatActivity {
 
-    private Button addRecordBtn, viewRecordBtn, flavourListBtn, deleteAllBtn;
+    private Button addRecordBtn, viewRecordBtn, flavourListBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,20 +46,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        deleteAllBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                databaseHelper DbObj = new databaseHelper(MainActivity.this);
-                DbObj.deleteAllData();
-            }
-        });
     }
 
     private void initialiseViews() { // def fun_name( )
         addRecordBtn = findViewById(R.id.addRecordBtn);
         viewRecordBtn = findViewById(R.id.viewRecordBtn);
         flavourListBtn = findViewById(R.id.flavourListBtn);
-        deleteAllBtn= findViewById(R.id.deleteAllBtn);
     }
 }
 
