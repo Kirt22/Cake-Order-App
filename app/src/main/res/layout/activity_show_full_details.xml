@@ -234,19 +234,24 @@
             android:id="@+id/updateOrderBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="40dp"
             android:text="Update Order"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/themeCakeDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/themeCakeDescription"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/deleteOrderBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="60dp"
+            android:layout_marginBottom="40dp"
             android:text="Delete Order"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/themeCakeDescription" />
 

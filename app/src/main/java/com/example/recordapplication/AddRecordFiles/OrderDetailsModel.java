@@ -1,4 +1,4 @@
-package com.example.recordapplication.ViewRecordFiles;
+package com.example.recordapplication.AddRecordFiles;
 
 public class OrderDetailsModel {
 

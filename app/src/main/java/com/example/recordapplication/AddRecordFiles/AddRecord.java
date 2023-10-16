@@ -24,7 +24,6 @@ import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.recordapplication.ViewRecordFiles.OrderDetailsModel;
 import com.example.recordapplication.R;
 import com.example.recordapplication.DatabaseHelperFiles.databaseHelper;
 
@@ -36,16 +35,16 @@ import java.util.TimeZone;
 
 public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private EditText deliveryDateInput, customerPhoneNumberInput, cakePriceInput, cakeWeightInput, cakeMsgInput, themeDescription, deliveryTimeInput;
+    private EditText deliveryDateInput, cakePriceInput, cakeWeightInput, cakeMsgInput, themeDescription, deliveryTimeInput;
     private Button submitDetailsBtn;
     @SuppressLint("UseSwitchCompatOrMaterialCode")
     private Switch switchBtn;
     private CheckBox isThemeCheckBtn;
-    private AutoCompleteTextView nameInput, cakeFlavourInput;
+    private AutoCompleteTextView nameInput, cakeFlavourInput, customerPhoneNumberInput;
     private Spinner bakeryItemTypeSelector;
     private String BakeryType = "Cake";
     private ArrayList<String> CakeArrayList, CheeseCakeArrayList, CupCakeArrayList, arrayList;
-    databaseHelper databaseHelperObj;
+    //databaseHelper databaseHelperObj;
     private TimePickerDialog timePickerDialog;
     private String date, dateDb, time, timeDb;
     private int hour, Minute;
@@ -92,13 +91,14 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
 
         initialiseViews();
         Log.d("AddRecord", "onCreate: Entered");
-        databaseHelperObj = new databaseHelper(AddRecord.this);
 
         bakeryTypeSpinnerDropBox();
 
         autoSuggestNameForCustomer();
 
         autoSuggestNameForFlavour(BakeryType);
+
+        autoSuggestForPhoneNumber();
 
         // On clicking the Delivery date edtText
         deliveryDateInput.setOnClickListener(new View.OnClickListener() {
@@ -149,12 +149,17 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
     private void insertItem() {
         long orderId = generateOrderId();
 
+        databaseHelper databaseHelperObj = new databaseHelper(AddRecord.this);
+
         if (BakeryType.equals("Cake")) {
             if (nameInput.getText().toString().trim().length() == 0 || customerPhoneNumberInput.getText().toString().trim().length() == 0
                     || cakePriceInput.getText().toString().trim().length() == 0 || cakeFlavourInput.getText().toString().trim().length() == 0
                     || cakeWeightInput.getText().toString().trim().length() == 0 || cakeMsgInput.getText().toString().trim().length() == 0
                     || dateDb.length() == 0 || timeDb.length() == 0) {
                 Toast.makeText(this, "Some Field Empty!", Toast.LENGTH_SHORT).show();
+                return;
+            } else if(customerPhoneNumberInput.getText().toString().trim().length() > 16) {
+                Toast.makeText(this, "Invalid Phone Number Length (Phone number length less than 17)!", Toast.LENGTH_SHORT).show();
                 return;
             }
         } else if (BakeryType.equals("Cheese Cake")) {
@@ -164,12 +169,18 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
                     || dateDb.length() == 0 || timeDb.length() == 0) {
                 Toast.makeText(this, "Some Field Empty!", Toast.LENGTH_SHORT).show();
                 return;
+            } else if(customerPhoneNumberInput.getText().toString().trim().length() > 16) {
+                Toast.makeText(this, "Invalid Phone Number Length (Phone number length less than 17)!", Toast.LENGTH_SHORT).show();
+                return;
             }
         } else if (BakeryType.equals("Cup Cake")) {
             if (nameInput.getText().toString().trim().length() == 0 || customerPhoneNumberInput.getText().toString().trim().length() == 0
                     || cakePriceInput.getText().toString().trim().length() == 0 || cakeFlavourInput.getText().toString().trim().length() == 0
                     || cakeWeightInput.getText().toString().trim().length() == 0 || dateDb.length() == 0 || timeDb.length() == 0) {
                 Toast.makeText(this, "Some Field Empty!", Toast.LENGTH_SHORT).show();
+                return;
+            } else if(customerPhoneNumberInput.getText().toString().trim().length() > 16) {
+                Toast.makeText(this, "Invalid Phone Number Length (Phone number length less than 17)!", Toast.LENGTH_SHORT).show();
                 return;
             }
         }
@@ -212,6 +223,7 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
     }
 
     private long generateOrderId() {
+        databaseHelper databaseHelperObj = new databaseHelper(AddRecord.this);
         long orderId;
         Random random = new Random();
         orderId = random.nextInt(200000001 - 100000001) - 100000001;
@@ -249,6 +261,7 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
     }
 
     private void autoSuggestNameForCustomer() {
+        databaseHelper databaseHelperObj = new databaseHelper(AddRecord.this);
         // Auto Suggest feature for customer Name ( using database )
         Log.d("AddRecord", "autoSuggestNameForCustomer: entered");
         arrayList = databaseHelperObj.getName();
@@ -259,6 +272,7 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
     private void autoSuggestNameForFlavour(String BakeryType) {
         // Auto Suggest feature for cake Flavour ( using database )
 
+        databaseHelper databaseHelperObj = new databaseHelper(AddRecord.this);
         if (BakeryType.equals("Cake")) {
             Log.d("AddRecord", "onCreate: Auto Suggest bakeryType-" + BakeryType);
             CakeArrayList = databaseHelperObj.getCakeFlavour();
@@ -275,6 +289,13 @@ public class AddRecord extends AppCompatActivity implements AdapterView.OnItemSe
             ArrayAdapter<String> arrayAdapterForCupCakeFla = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, CupCakeArrayList);
             cakeFlavourInput.setAdapter(arrayAdapterForCupCakeFla);
         }
+    }
+
+    private void autoSuggestForPhoneNumber() {
+        databaseHelper databaseHelperObj = new databaseHelper(AddRecord.this);
+        arrayList = databaseHelperObj.getNumber();
+        ArrayAdapter<String> arrayAdapterForCusName = new ArrayAdapter<>(AddRecord.this, android.R.layout.simple_list_item_1, arrayList);
+        customerPhoneNumberInput.setAdapter(arrayAdapterForCusName);
     }
 
     public void bakeryTypeSpinnerDropBox() {

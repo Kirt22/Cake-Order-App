@@ -11,7 +11,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.example.recordapplication.FlavourListOperationsFiles.flavoursModelClass;
-import com.example.recordapplication.ViewRecordFiles.OrderDetailsModel;
+import com.example.recordapplication.AddRecordFiles.OrderDetailsModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -157,7 +157,24 @@ public class databaseHelper extends SQLiteOpenHelper {
             allName.add(cursor.getString(cursor.getColumnIndex(COLUMN_CUSTOMER_NAME)));
             cursor.moveToNext();
         }
+        dbObj.close();
         return allName;
+    }
+
+    @SuppressLint("Range")
+    public ArrayList<String> getNumber() {
+        ArrayList<String> allNumber = new ArrayList<>();
+        SQLiteDatabase dbObj = this.getReadableDatabase();
+
+        Cursor cursor = dbObj.query(ORDER_RECORD_TABLE, null, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()) {
+            allNumber.add(cursor.getString(cursor.getColumnIndex(COLUMN_PHONE_NUMBER)));
+            cursor.moveToNext();
+        }
+        dbObj.close();
+        return allNumber;
     }
 
     public Cursor getDataForRV() {
