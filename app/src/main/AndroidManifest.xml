@@ -13,6 +13,9 @@
         android:theme="@style/Theme.RecordApplication"
         tools:targetApi="31">
         <activity
+            android:name=".ShowAllRecords"
+            android:exported="false" />
+        <activity
             android:name=".FlavourListOperationsFiles.FlavourOperationsFiles.flavourOperations"
             android:exported="false" />
         <activity

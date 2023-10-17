@@ -43,9 +43,12 @@ public class parentRvAdapter extends RecyclerView.Adapter<parentRvAdapter.myView
 
         ArrayList<subRvModelClass> subData = parentItem.getSubRvModelClassArrayList();
         if(subData.get(0).getCustomerName() == null) {
+            Log.d("parentAdapter", "onBindViewHolder: null case entered");
             holder.noOrderMsgTxt.setVisibility(View.VISIBLE);
             holder.sub_rv.setVisibility(View.INVISIBLE);
         } else {
+            holder.noOrderMsgTxt.setVisibility(View.INVISIBLE);
+            Log.d("parentAdapter", "onBindViewHolder: valid case entered");
             holder.sub_rv.setVisibility(View.VISIBLE);
             subRvAdapter childAdapter = new subRvAdapter(subData, context, subRecyclerViewInterface);
             holder.sub_rv.setLayoutManager(new LinearLayoutManager(context));

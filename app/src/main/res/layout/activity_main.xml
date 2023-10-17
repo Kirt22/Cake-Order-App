@@ -51,4 +51,14 @@
         app:layout_constraintStart_toStartOf="@+id/viewRecordBtn"
         app:layout_constraintTop_toBottomOf="@+id/viewRecordBtn" />
 
+    <Button
+        android:id="@+id/viewAllRecordsBtn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="View All Records"
+        app:layout_constraintEnd_toEndOf="@+id/flavourListBtn"
+        app:layout_constraintStart_toStartOf="@+id/flavourListBtn"
+        app:layout_constraintTop_toBottomOf="@+id/flavourListBtn" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

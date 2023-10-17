@@ -16,6 +16,30 @@ import java.util.Objects;
 
 public class GenerateRequiredOrdersArrayList {
 
+    public ArrayList<parentRvModelClass> generateArrayListForViewAllRecords(Context context) {
+        ArrayList<parentRvModelClass> parentRvModelClassArrayList = new ArrayList<>();
+        Log.d("GenerateRequiredOrdersArrayList", "generateArrayListForSearchDate: search Date entered");
+        Cursor cursor = new databaseHelper(context).getAllDataRv();
+        try {
+            cursor.moveToFirst();
+            do {
+                String date = cursor.getString(3);
+                parentRvModelClass parentItem = new parentRvModelClass(date, setSubArrayList(date, context));
+                parentRvModelClassArrayList.add(parentItem);
+            } while (cursor.moveToNext());
+        } catch (Exception e) {
+            Log.e("GenerateRequiredOrdersArrayList", "onCreate: failed", e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        parentRvModelClassArrayList = modifyArrayList(parentRvModelClassArrayList);
+
+        return parentRvModelClassArrayList;
+    }
+
     public ArrayList<parentRvModelClass> generateArrayListForSearchDate(Context context, String searchDate) {
         ArrayList<parentRvModelClass> parentRvModelClassArrayList = new ArrayList<>();
         Log.d("GenerateRequiredOrdersArrayList", "generateArrayListForSearchDate: search Date entered");

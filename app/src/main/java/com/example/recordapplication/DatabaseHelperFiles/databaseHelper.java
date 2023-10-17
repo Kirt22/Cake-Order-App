@@ -234,6 +234,16 @@ public class databaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public Cursor getAllDataRv() {
+        SQLiteDatabase dbObj = this.getReadableDatabase();
+        String SQLQuery = " SELECT * FROM " + ORDER_RECORD_TABLE;
+        Cursor cursor = dbObj.rawQuery(SQLQuery, null);
+        if(cursor.moveToNext())
+            Log.d("databaseHelper", "getDataForRV: cursor success-" + cursor.moveToNext());
+        cursor.moveToFirst();
+        return cursor;
+    }
+
     // Used for generating OrderId
     public Cursor getAllData() {
         SQLiteDatabase dbObj = this.getReadableDatabase();
